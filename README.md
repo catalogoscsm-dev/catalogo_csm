@@ -1,114 +1,125 @@
-# CSM Catalog Extractor
+# CSM Decor — Catálogo Digital
 
-Pipeline de extração de catálogos de móveis planejados — **arquitetura híbrida** Claude Vision + DeepSeek.
+Catálogo digital de produtos de mobiliário para a CSM Decor.
+Site estático gerado a partir de 121 PDFs de fornecedores, publicado no GitHub Pages.
 
-## Fluxo
+---
+
+## Plano de trabalho
+
+### Divisão de tarefas
+
+**Joao Miguel faz:**
+- Dividir os PDFs página a página e identificar a página principal de cada produto
+- Selecionar e editar as fotos no Google Gemini (remover preços, textos feios, melhorar qualidade)
+- Entregar as imagens organizadas por produto
+
+**Claude faz:**
+- Ler os PDFs e extrair nome, dimensões, materiais e categorias de cada produto
+- Organizar tudo por nome e palavras-chave
+- Cruzar as imagens entregues com as informações extraídas
+- Gerar o site HTML estático pronto para publicar no GitHub Pages
+
+---
+
+### Fluxo completo
 
 ```
-PDF → PyMuPDF (imagens) → Claude Vision (bboxes) → Pillow (recorte) → DeepSeek (dados) → ColorThief (paleta) → JSON
+PDFs (121 ficheiros)
+  ↓
+Claude lê e extrai informações (nome, dimensões, materiais, categoria)
+  ↓
+Joao Miguel divide páginas + edita fotos no Gemini
+  ↓
+Claude cruza imagem + info de cada produto
+  ↓
+Script gera site HTML estático
+  ↓
+Push para GitHub → publicado em GitHub Pages (grátis, para sempre)
 ```
 
-## Instalação
+---
 
-```bash
-# 1. Clone / copie o projeto
-cd csm-catalog-extractor
+### Estado actual
 
-# 2. Crie o ambiente virtual
+| Fornecedor | Produtos | Imagens | Info extraída |
+|---|---|---|---|
+| Aço Mobilia 2025-7 | 39 | ✅ foto ambiente + técnica | ✅ |
+| ACQUARELLA - AGO 2023 | 57 | ✅ só foto ambiente | ✅ |
+| Restantes 119 PDFs | — | ⏳ a tratar | ⏳ |
+
+**Total actual: 96 produtos no catálogo**
+
+---
+
+## Site (GitHub Pages)
+
+URL: `https://catalogoscsm-dev.github.io/catalogo_csm`
+
+- Site estático — sem servidor, sem mensalidade
+- Pesquisa por JavaScript (nome, categoria, material)
+- Vendedores partilham o link directamente com clientes
+- Actualizado com um script sempre que entram novos produtos
+
+---
+
+## Estrutura do projecto
+
+```
+csm-catalog-extractor/
+├── webapp/               # App Flask local (gestão e admin)
+│   ├── app.py
+│   ├── loader.py
+│   ├── config.py
+│   └── templates/
+├── scripts/
+│   ├── renderizar_pdfs.py   # Renderiza PDFs em PNG para preview
+│   └── gerar_site.py        # (a criar) Gera o HTML estático
+├── src/extractor/           # Pipeline de extracção com IA
+├── data/                    # Local apenas — não vai para o GitHub
+│   ├── preview/             # PNGs renderizados (10 GB, local)
+│   ├── output/              # JSONs extraídos (local)
+│   └── catalog.db           # Base de dados SQLite (local)
+├── site/                    # (a criar) HTML estático gerado
+├── .env.example
+└── .gitignore
+```
+
+---
+
+## Instalar no PC novo
+
+```powershell
+# 1. Clonar o projecto
+git clone https://github.com/catalogoscsm-dev/catalogo_csm.git
+cd catalogo_csm
+
+# 2. Criar ambiente virtual
 python -m venv .venv
-source .venv/bin/activate   # Linux/Mac
-# .venv\Scripts\activate    # Windows
+.venv\Scripts\activate
 
-# 3. Instale as dependências
+# 3. Instalar dependências
 pip install -e .
 
-# 4. Configure as chaves de API
-cp .env.example .env
-# Edite o .env e coloque suas chaves
+# 4. Configurar credenciais
+copy .env.example .env
+# Editar o .env com as senhas e chave de API
+
+# 5. Colocar os PDFs em data/pdfs/ e renderizar
+python scripts/renderizar_pdfs.py
+
+# 6. Abrir o catálogo local
+python webapp/app.py
+# Aceder em http://localhost:5000
 ```
+
+---
 
 ## Configuração do .env
 
 ```
-ANTHROPIC_API_KEY=sk-ant-...      # sua chave Claude
-DEEPSEEK_API_KEY=sk-...            # sua chave DeepSeek
+ANTHROPIC_API_KEY=sk-ant-...   # Chave Claude (extracção de informações)
+ADMIN_PASSWORD=...              # Senha do admin no catálogo local
+CLIENT_PASSWORD=...             # Senha do cliente no catálogo local
+SECRET_KEY=...                  # Chave Flask (qualquer string aleatória)
 ```
-
-## Uso
-
-### Piloto (5 PDFs para validação)
-
-```bash
-# 1. Coloque os 5 PDFs piloto em:
-#    data/pdfs/piloto/
-
-# 2. Rode o piloto
-python scripts/run_pilot.py
-
-# 3. Revise os resultados em:
-#    data/output/piloto/
-```
-
-### Processamento completo (121 PDFs)
-
-```bash
-# 1. Coloque todos os PDFs em:
-#    data/pdfs/
-
-# 2. (Opcional) Edite o dict FORNECEDORES em run_full.py
-#    para mapear nome do arquivo → nome interno do fornecedor
-
-# 3. Rode o processamento completo
-python scripts/run_full.py
-```
-
-## Estrutura de saída
-
-```
-data/output/
-└── nome-do-pdf/
-    ├── paginas/                   # Imagens PNG de cada página
-    │   ├── nome-do-pdf_pag001.png
-    │   └── ...
-    ├── produtos/                  # Imagens recortadas por produto
-    │   ├── nome-do-pdf_pag001_prod01.jpg
-    │   └── ...
-    └── resultado_YYYYMMDD_HHMMSS.json   # Dados de todos os produtos
-```
-
-## Estrutura do JSON por produto
-
-```json
-{
-  "nome": "Mesa Athenas",
-  "categoria": "Sala de Jantar",
-  "descricao": "Mesa com estrutura em metalon...",
-  "dimensoes": "76cm altura; 120x270, 110x240...",
-  "materiais": ["Metalon 30x30", "Pintura eletrostática a pó"],
-  "cores_disponiveis": ["Black", "Champagne", "Fendi"],
-  "partes_multicolor": [
-    {"parte": "Estrutura", "opcoes": ["Black", "Champagne"]},
-    {"parte": "Tampo", "opcoes": ["MDF c/ Vidro Off White", "Laminado Cinamomo"]}
-  ],
-  "bbox": {"x": 0.0, "y": 0.0, "largura": 1.0, "altura": 1.0},
-  "imagem_path": "nome-do-pdf/produtos/nome-do-pdf_pag001_prod01.jpg",
-  "paleta_hex": ["#3D3D3D", "#F5F0E8", "#8B6914"],
-  "pagina_origem": 1,
-  "pdf_origem": "nome-do-pdf.pdf",
-  "fornecedor_interno": "Fornecedor ABC",
-  "status_revisao": "pendente",
-  "aprovado": false
-}
-```
-
-## Retomada automática
-
-Se o processamento for interrompido (Ctrl+C, queda de energia, etc.),
-rode o mesmo script novamente. O checkpoint retoma automaticamente
-de onde parou.
-
-## Custo estimado
-
-- Claude Vision (Sonnet): ~$0.003–0.006 por página
-- DeepSeek: ~$0.001–0.002 por produto
-- 121 PDFs × ~25 páginas = ~3.000 páginas → **total ~$9–18 USD**
