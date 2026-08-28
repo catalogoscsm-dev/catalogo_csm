@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block title %}Catálogo — CSM Decor{% endblock %}
+
+{% block content %}
+
+<!-- Busca e Filtros -->
+<form method="get" class="flex flex-wrap gap-2 mb-6">
+  <div class="flex-1 min-w-56 relative">
+    <input
+      name="q"
+      value="{{ q }}"
+      placeholder="Buscar produto, material, acabamento..."
+      class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm bg-white shadow-sm
+             focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+    >
+  </div>
+
+  <select
+    name="categoria"
+    class="border border-gray-200 rounded-xl px-3 py-2.5 text-sm bg-white shadow-sm
+           focus:outline-none focus:ring-2 focus:ring-yellow-400"
+  >
+    <option value="">Todas as categorias</option>
+    {% for cat in categorias %}
+    <option value="{{ cat }}" {% if cat == categoria %}selected{% endif %}>{{ cat }}</option>
+    {% endfor %}
+  </select>
+
+  <button
+    type="submit"
+    class="bg-gray-900 hover:bg-gray-700 text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-colors shadow-sm"
+  >
+    Buscar
+  </button>
+
+  {% if q or categoria %}
+  <a href="/" class="text-gray-400 hover:text-gray-600 text-sm py-2.5 px-2 flex items-center">✕ Limpar</a>
+  {% endif %}
+</form>
+
+<!-- Contagem -->
+<div class="flex items-center justify-between mb-4">
+  <p class="text-gray-400 text-xs">
+    {% if total == 0 %}
+      Nenhum produto encontrado
+    {% elif total == 1 %}
+      1 produto encontrado
+    {% else %}
+      {{ total }} produtos encontrados
+      {% if q %} para "<strong class="text-gray-600">{{ q }}</strong>"{% endif %}
+    {% endif %}
+  </p>
+  {% if is_admin %}
+  <span class="text-xs text-amber-600 font-medium">Modo Admin — fornecedores visíveis</span>
+  {% endif %}
+</div>
+
+<!-- Grid de Produtos -->
+{% if products %}
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+  {% for p in products %}
+  <a
+    href="/produto/{{ p['id'] }}"
+    class="card bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md
+           transition-all overflow-hidden group"
+  >
+    <!-- Imagem (usa foto ambiente quando disponível) -->
+    <div class="aspect-square bg-gray-100 overflow-hidden relative">
+      {% set imgs = p['imagens'] | fromjson %}
+      {% set thumb = imgs[0] if imgs else p['imagem_path'] %}
+      {% if thumb %}
+      <img
+        src="/imagem/{{ thumb }}"
+        alt="{{ p['nome'] }}"
+        class="card-img w-full h-full object-cover"
+        loading="lazy"
+        onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-300 text-3xl\'>▭</div>'"
+      >
+      {% else %}
+      <div class="w-full h-full flex items-center justify-center text-gray-300 text-3xl">▭</div>
+      {% endif %}
+      {% if imgs | length > 1 %}
+      <span class="absolute bottom-1.5 right-1.5 bg-black/50 text-white text-[10px] px-1.5 py-0.5 rounded-full">{{ imgs | length }} fotos</span>
+      {% endif %}
+    </div>
+
+    <!-- Info -->
+    <div class="p-2.5">
+      <p class="text-xs font-semibold text-gray-800 line-clamp-2 leading-snug min-h-[2.5rem]">
+        {{ p['nome'] or 'Produto sem nome' }}
+      </p>
+
+      {% if p['categoria'] %}
+      <p class="text-xs text-blue-500 mt-0.5 truncate">{{ p['categoria'] }}</p>
+      {% endif %}
+
+      {% if p['dimensoes'] %}
+      <p class="text-xs text-gray-400 mt-0.5 truncate">{{ p['dimensoes'] }}</p>
+      {% endif %}
+
+      {% if is_admin and p['fornecedor'] %}
+      <div class="mt-1.5 pt-1.5 border-t border-amber-100">
+        <p class="text-xs text-amber-600 font-medium truncate">{{ p['fornecedor'] }}</p>
+      </div>
+      {% endif %}
+    </div>
+  </a>
+  {% endfor %}
+</div>
+
+<!-- Paginação -->
+{% if total > per_page %}
+<div class="mt-10 flex justify-center items-center gap-2">
+  {% if page > 1 %}
+  <a
+    href="?q={{ q }}&categoria={{ categoria }}&page={{ page - 1 }}"
+    class="px-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+  >← Anterior</a>
+  {% endif %}
+
+  <span class="text-sm text-gray-500 px-3">
+    Página {{ page }} de {{ ((total - 1) // per_page) + 1 }}
+  </span>
+
+  {% if page * per_page < total %}
+  <a
+    href="?q={{ q }}&categoria={{ categoria }}&page={{ page + 1 }}"
+    class="px-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors"
+  >Próxima →</a>
+  {% endif %}
+</div>
+{% endif %}
+
+{% else %}
+<!-- Estado vazio -->
+<div class="text-center py-24">
+  <div class="text-6xl mb-4 text-gray-200">▭</div>
+  <p class="text-gray-400 text-lg font-light">Nenhum produto no catálogo ainda.</p>
+  <p class="text-gray-300 text-sm mt-2">
+    Processe os PDFs com o extractor e rode <code class="bg-gray-100 px-1.5 py-0.5 rounded text-xs">python scripts/run_pilot.py</code>
+  </p>
+</div>
+{% endif %}
+
+{% endblock %}
