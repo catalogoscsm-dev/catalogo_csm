@@ -1,9 +1,55 @@
 from __future__ import annotations
 import sqlite3
 import json
+import unicodedata
 from pathlib import Path
 
 from config import DATA_OUTPUT_DIR, DB_PATH, DATA_DIR
+
+
+# ── Busca aprimorada ─────────────────────────────────────────────────────────
+
+def _normalize(text: str) -> str:
+    """Lowercase + remove acentos para comparação."""
+    nfd = unicodedata.normalize("NFD", text.lower().strip())
+    return "".join(c for c in nfd if unicodedata.category(c) != "Mn")
+
+
+def _stem_pt(word: str) -> str:
+    """Stemmer mínimo para português: remove sufixos plurais comuns."""
+    if len(word) <= 3:
+        return word
+    if word.endswith("ções") and len(word) > 5:
+        return word[:-4] + "cao"
+    if word.endswith("ões") and len(word) > 4:
+        return word[:-3] + "ao"
+    if word.endswith("ais") and len(word) > 4:
+        return word[:-3] + "al"   # principais → principal
+    if word.endswith("eis") and len(word) > 4:
+        return word[:-3] + "el"   # painéis → painel
+    if word.endswith("ens") and len(word) > 4:
+        return word[:-3] + "em"   # também cobre "jovens" → "jovem"
+    if word.endswith("es") and len(word) > 4:
+        return word[:-2]           # sofaes → sofa (edge case)
+    if word.endswith("s") and len(word) > 3:
+        return word[:-1]           # mesas → mesa, cadeiras → cadeira
+    return word
+
+
+def _build_fts_query(q: str) -> str:
+    """
+    Constrói query FTS5: normaliza, aplica stem e adiciona prefixo *.
+    Ex: "mesas" → "mesa*"   "cadeiras laterais" → "cadeira* lateral*"
+    Espaço entre termos = AND implícito no FTS5.
+    """
+    tokens = _normalize(q).split()
+    parts = []
+    for tok in tokens:
+        if len(tok) < 2:
+            continue
+        stem = _stem_pt(tok)
+        parts.append(stem + "*")
+    return " ".join(parts) if parts else q
 
 
 def get_db() -> sqlite3.Connection:
@@ -166,13 +212,36 @@ def search_products(
     params: list = []
 
     if q:
-        ids = [
-            r[0]
-            for r in conn.execute(
-                "SELECT rowid FROM products_fts WHERE products_fts MATCH ? ORDER BY rank",
-                (q,),
-            ).fetchall()
-        ]
+        ids: list[int] = []
+
+        # 1ª tentativa: FTS5 com stem + prefixo wildcard  ex: "mesas" → "mesa*"
+        fts_q = _build_fts_query(q)
+        try:
+            ids = [
+                r[0]
+                for r in conn.execute(
+                    "SELECT rowid FROM products_fts WHERE products_fts MATCH ? ORDER BY rank",
+                    (fts_q,),
+                ).fetchall()
+            ]
+        except Exception:
+            ids = []
+
+        # 2ª tentativa: LIKE usando o stem em nome+categoria+descricao
+        # cobre erros leves e casos onde FTS5 falha
+        if not ids:
+            stem = _stem_pt(_normalize(q.strip()))
+            like = f"%{stem}%"
+            ids = [
+                r[0]
+                for r in conn.execute(
+                    """SELECT id FROM products
+                       WHERE (lower(nome) LIKE ? OR lower(categoria) LIKE ? OR lower(descricao) LIKE ?)
+                         AND aprovado = 1""",
+                    (like, like, like),
+                ).fetchall()
+            ]
+
         if not ids:
             conn.close()
             return [], 0

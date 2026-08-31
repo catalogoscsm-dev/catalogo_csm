@@ -5,71 +5,81 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CSM Decor — Acesso</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: { extend: { colors: { gold: { DEFAULT: '#B8960C', light: '#D4AF37' } } } }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    body { background-color: #FAFAF8; }
+    .gold-rule {
+      height: 1px;
+      background: linear-gradient(to right, transparent, #FF7D00, transparent);
     }
-  </script>
+  </style>
 </head>
-<body class="bg-gray-950 min-h-screen flex items-center justify-center font-sans antialiased">
+<body class="min-h-screen flex items-center justify-center" style="background:#FAFAF8;">
 
-<div class="w-full max-w-sm mx-auto px-6">
+<div class="w-full max-w-sm mx-auto px-8">
 
-  <!-- Logo -->
+  <!-- Marca -->
   <div class="text-center mb-10">
-    <h1 class="text-3xl font-bold text-white tracking-tight">
-      CSM <span class="text-yellow-400">Decor</span>
-    </h1>
-    <p class="text-gray-500 text-sm mt-1">Catálogo de Produtos</p>
+    <img src="/static/logo.png" alt="CSM" style="height:72px; width:auto; margin:0 auto 16px;">
+    <div class="gold-rule max-w-[100px] mx-auto mb-3"></div>
+    <p class="text-[10px] tracking-[0.3em] uppercase"
+       style="color:#b0a898; font-family:'Inter',sans-serif;">Catálogo de Produtos</p>
   </div>
 
-  <!-- Card -->
-  <div class="bg-gray-900 border border-gray-800 rounded-2xl p-8 shadow-2xl">
-    <h2 class="text-white font-semibold mb-6 text-center">Identificação</h2>
+  <!-- Formulário -->
+  <div class="rounded-2xl p-8" style="background:#1e1e1e; border:1px solid rgba(255,125,0,0.25); box-shadow:0 8px 40px rgba(255,125,0,0.08);">
 
     {% if error %}
-    <div class="bg-red-900/40 border border-red-700 text-red-300 text-sm px-4 py-3 rounded-lg mb-5">
+    <div class="rounded-xl px-4 py-3 mb-6 text-sm font-sans text-center"
+         style="background:#FEF2F2; border:1px solid #FECACA; color:#B91C1C;">
       {{ error }}
     </div>
     {% endif %}
 
-    <form method="post" class="space-y-4">
+    <form method="post" class="space-y-5">
       <div>
-        <label class="block text-gray-400 text-xs font-medium mb-1.5">Usuário</label>
+        <label class="block text-[10px] tracking-[0.25em] uppercase mb-2 font-sans"
+               style="color:#b0a898;">Usuário</label>
         <input
-          name="username"
-          type="text"
-          autocomplete="username"
-          class="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-2.5 text-sm
-                 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent
-                 placeholder:text-gray-600"
-          placeholder="admin ou cliente"
+          name="username" type="text" autocomplete="username"
           required
+          class="w-full rounded-xl px-4 py-3 text-sm font-sans outline-none transition-all"
+          style="background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); color:#fff;"
+          onfocus="this.style.borderColor='#FF7D00'; this.style.boxShadow='0 0 0 3px rgba(255,125,0,0.15)'"
+          onblur="this.style.borderColor='rgba(255,255,255,0.15)'; this.style.boxShadow='none'"
+          placeholder="Digite seu usuário"
         >
       </div>
       <div>
-        <label class="block text-gray-400 text-xs font-medium mb-1.5">Senha</label>
+        <label class="block text-[10px] tracking-[0.25em] uppercase mb-2 font-sans"
+               style="color:#b0a898;">Senha</label>
         <input
-          name="password"
-          type="password"
-          autocomplete="current-password"
-          class="w-full bg-gray-800 border border-gray-700 text-white rounded-lg px-4 py-2.5 text-sm
-                 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+          name="password" type="password" autocomplete="current-password"
           required
+          class="w-full rounded-xl px-4 py-3 text-sm font-sans outline-none transition-all"
+          style="background:#FAFAF8; border:1px solid #FFD4A8; color:#1a1a1a;"
+          onfocus="this.style.borderColor='#FF7D00'; this.style.boxShadow='0 0 0 3px rgba(255,125,0,0.15)'"
+          onblur="this.style.borderColor='#FFD4A8'; this.style.boxShadow='none'"
         >
       </div>
       <button
         type="submit"
-        class="w-full bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold
-               rounded-lg py-2.5 text-sm transition-colors mt-2"
+        class="w-full py-3 rounded-xl text-[11px] tracking-[0.3em] uppercase font-medium font-sans
+               transition-all mt-2"
+        style="background:#FF7D00; color:#fff;"
+        onmouseover="this.style.background='#CC6400'"
+        onmouseout="this.style.background='#FF7D00'"
       >
         Entrar
       </button>
     </form>
   </div>
 
-  <p class="text-center text-gray-700 text-xs mt-6">Acesso restrito — uso interno</p>
+  <p class="text-center text-[10px] tracking-widest uppercase mt-8 font-sans" style="color:#b0a898;">
+    Acesso restrito &mdash; uso interno
+  </p>
 </div>
 
 </body>
