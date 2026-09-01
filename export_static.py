@@ -17,6 +17,9 @@ products = []
 for r in rows:
     images = json.loads(r[5]) if r[5] else []
     cores  = json.loads(r[4]) if r[4] else []
+    # paths in DB are relative to DATA_DIR ("products/..."),
+    # but on GitHub Pages they live under "data/products/..."
+    images = ["data/" + p if not p.startswith("data/") else p for p in images]
     products.append({
         "id":         r[0],
         "nome":       r[1],

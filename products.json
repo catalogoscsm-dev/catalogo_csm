@@ -7,8 +7,8 @@
       "dimensoes": "U - 60cm x 50cm x h.45cm / 72cm",
       "cores": [],
       "imagens": [
-        "products/ABV 2025/pag066_amb.jpg",
-        "products/ABV 2025/pag066_tech.jpg"
+        "data/products/ABV 2025/pag066_amb.jpg",
+        "data/products/ABV 2025/pag066_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 66
@@ -20,8 +20,8 @@
       "dimensoes": "P - 60cm x 50cm x h.65cm / 92cm | G - 60cm x 50cm x h.75cm / 102cm",
       "cores": [],
       "imagens": [
-        "products/ABV 2025/pag070_amb.jpg",
-        "products/ABV 2025/pag070_tech.jpg"
+        "data/products/ABV 2025/pag070_amb.jpg",
+        "data/products/ABV 2025/pag070_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 70
@@ -36,8 +36,8 @@
         "Fog"
       ],
       "imagens": [
-        "products/ABV 2025/pag062_amb.jpg",
-        "products/ABV 2025/pag062_tech.jpg"
+        "data/products/ABV 2025/pag062_amb.jpg",
+        "data/products/ABV 2025/pag062_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 62
@@ -49,8 +49,8 @@
       "dimensoes": "U - 50cm x 50cm x h.45cm / 72cm",
       "cores": [],
       "imagens": [
-        "products/ABV 2025/pag064_amb.jpg",
-        "products/ABV 2025/pag064_tech.jpg"
+        "data/products/ABV 2025/pag064_amb.jpg",
+        "data/products/ABV 2025/pag064_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 64
@@ -62,8 +62,8 @@
       "dimensoes": "P - 50cm x 50cm x h.65cm / 92cm | G - 50cm x 50cm x h.75cm / 102cm",
       "cores": [],
       "imagens": [
-        "products/ABV 2025/pag068_amb.jpg",
-        "products/ABV 2025/pag068_tech.jpg"
+        "data/products/ABV 2025/pag068_amb.jpg",
+        "data/products/ABV 2025/pag068_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 68
@@ -75,8 +75,8 @@
       "dimensoes": "U - 65cm x 65cm x h.45cm / 76cm",
       "cores": [],
       "imagens": [
-        "products/ABV 2025/pag074_amb.jpg",
-        "products/ABV 2025/pag074_tech.jpg"
+        "data/products/ABV 2025/pag074_amb.jpg",
+        "data/products/ABV 2025/pag074_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 74
@@ -88,8 +88,8 @@
       "dimensoes": "P - 45cm x 40cm x h.65cm / 73cm | G - 45cm x 40cm x h.75cm / 83cm",
       "cores": [],
       "imagens": [
-        "products/ABV 2025/pag072_amb.jpg",
-        "products/ABV 2025/pag072_tech.jpg"
+        "data/products/ABV 2025/pag072_amb.jpg",
+        "data/products/ABV 2025/pag072_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 72
@@ -104,8 +104,8 @@
         "Jequitibánatural"
       ],
       "imagens": [
-        "products/ABV 2025/pag012_amb.jpg",
-        "products/ABV 2025/pag012_tech.jpg"
+        "data/products/ABV 2025/pag012_amb.jpg",
+        "data/products/ABV 2025/pag012_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 12
@@ -120,8 +120,8 @@
         "Lacagianduia"
       ],
       "imagens": [
-        "products/ABV 2025/pag014_amb.jpg",
-        "products/ABV 2025/pag014_tech.jpg"
+        "data/products/ABV 2025/pag014_amb.jpg",
+        "data/products/ABV 2025/pag014_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 14
@@ -137,8 +137,8 @@
         "Bronze"
       ],
       "imagens": [
-        "products/ABV 2025/pag018_amb.jpg",
-        "products/ABV 2025/pag018_tech.jpg"
+        "data/products/ABV 2025/pag018_amb.jpg",
+        "data/products/ABV 2025/pag018_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 18
@@ -153,8 +153,8 @@
         "Fog"
       ],
       "imagens": [
-        "products/ABV 2025/pag008_amb.jpg",
-        "products/ABV 2025/pag008_tech.jpg"
+        "data/products/ABV 2025/pag008_amb.jpg",
+        "data/products/ABV 2025/pag008_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 8
@@ -169,8 +169,8 @@
         "Lourofreijó"
       ],
       "imagens": [
-        "products/ABV 2025/pag010_amb.jpg",
-        "products/ABV 2025/pag010_tech.jpg"
+        "data/products/ABV 2025/pag010_amb.jpg",
+        "data/products/ABV 2025/pag010_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 10
@@ -185,8 +185,8 @@
         "Jequitibácastanho"
       ],
       "imagens": [
-        "products/ABV 2025/pag016_amb.jpg",
-        "products/ABV 2025/pag016_tech.jpg"
+        "data/products/ABV 2025/pag016_amb.jpg",
+        "data/products/ABV 2025/pag016_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 16
@@ -198,8 +198,8 @@
       "dimensoes": "",
       "cores": [],
       "imagens": [
-        "products/ABV 2025/pag006_amb.jpg",
-        "products/ABV 2025/pag006_tech.jpg"
+        "data/products/ABV 2025/pag006_amb.jpg",
+        "data/products/ABV 2025/pag006_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 6
@@ -214,8 +214,8 @@
         "Savana"
       ],
       "imagens": [
-        "products/ABV 2025/pag102_amb.jpg",
-        "products/ABV 2025/pag102_tech.jpg"
+        "data/products/ABV 2025/pag102_amb.jpg",
+        "data/products/ABV 2025/pag102_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 102
@@ -230,8 +230,8 @@
         "Prata"
       ],
       "imagens": [
-        "products/ABV 2025/pag106_amb.jpg",
-        "products/ABV 2025/pag106_tech.jpg"
+        "data/products/ABV 2025/pag106_amb.jpg",
+        "data/products/ABV 2025/pag106_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 106
@@ -246,8 +246,8 @@
         "Bege"
       ],
       "imagens": [
-        "products/ABV 2025/pag100_amb.jpg",
-        "products/ABV 2025/pag100_tech.jpg"
+        "data/products/ABV 2025/pag100_amb.jpg",
+        "data/products/ABV 2025/pag100_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 100
@@ -262,8 +262,8 @@
         "Jequitibánatural"
       ],
       "imagens": [
-        "products/ABV 2025/pag104_amb.jpg",
-        "products/ABV 2025/pag104_tech.jpg"
+        "data/products/ABV 2025/pag104_amb.jpg",
+        "data/products/ABV 2025/pag104_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 104
@@ -278,8 +278,8 @@
         "Bege"
       ],
       "imagens": [
-        "products/ABV 2025/pag096_amb.jpg",
-        "products/ABV 2025/pag096_tech.jpg"
+        "data/products/ABV 2025/pag096_amb.jpg",
+        "data/products/ABV 2025/pag096_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 96
@@ -294,8 +294,8 @@
         "Bege"
       ],
       "imagens": [
-        "products/ABV 2025/pag098_amb.jpg",
-        "products/ABV 2025/pag098_tech.jpg"
+        "data/products/ABV 2025/pag098_amb.jpg",
+        "data/products/ABV 2025/pag098_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 98
@@ -310,8 +310,8 @@
         "Jequitibácastanho"
       ],
       "imagens": [
-        "products/ABV 2025/pag092_amb.jpg",
-        "products/ABV 2025/pag092_tech.jpg"
+        "data/products/ABV 2025/pag092_amb.jpg",
+        "data/products/ABV 2025/pag092_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 92
@@ -326,8 +326,8 @@
         "Bege"
       ],
       "imagens": [
-        "products/ABV 2025/pag094_amb.jpg",
-        "products/ABV 2025/pag094_tech.jpg"
+        "data/products/ABV 2025/pag094_amb.jpg",
+        "data/products/ABV 2025/pag094_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 94
@@ -342,8 +342,8 @@
         "Jequitibánatural"
       ],
       "imagens": [
-        "products/ABV 2025/pag058_amb.jpg",
-        "products/ABV 2025/pag058_tech.jpg"
+        "data/products/ABV 2025/pag058_amb.jpg",
+        "data/products/ABV 2025/pag058_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 58
@@ -358,8 +358,8 @@
         "Fog"
       ],
       "imagens": [
-        "products/ABV 2025/pag044_amb.jpg",
-        "products/ABV 2025/pag044_tech.jpg"
+        "data/products/ABV 2025/pag044_amb.jpg",
+        "data/products/ABV 2025/pag044_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 44
@@ -374,8 +374,8 @@
         "Carvalhochampagne"
       ],
       "imagens": [
-        "products/ABV 2025/pag060_amb.jpg",
-        "products/ABV 2025/pag060_tech.jpg"
+        "data/products/ABV 2025/pag060_amb.jpg",
+        "data/products/ABV 2025/pag060_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 60
@@ -390,8 +390,8 @@
         "Savana"
       ],
       "imagens": [
-        "products/ABV 2025/pag046_amb.jpg",
-        "products/ABV 2025/pag046_tech.jpg"
+        "data/products/ABV 2025/pag046_amb.jpg",
+        "data/products/ABV 2025/pag046_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 46
@@ -406,8 +406,8 @@
         "Fog"
       ],
       "imagens": [
-        "products/ABV 2025/pag052_amb.jpg",
-        "products/ABV 2025/pag052_tech.jpg"
+        "data/products/ABV 2025/pag052_amb.jpg",
+        "data/products/ABV 2025/pag052_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 52
@@ -424,8 +424,8 @@
         "Esp.Bronze"
       ],
       "imagens": [
-        "products/ABV 2025/pag056_amb.jpg",
-        "products/ABV 2025/pag056_tech.jpg"
+        "data/products/ABV 2025/pag056_amb.jpg",
+        "data/products/ABV 2025/pag056_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 56
@@ -441,8 +441,8 @@
         "Fog"
       ],
       "imagens": [
-        "products/ABV 2025/pag050_amb.jpg",
-        "products/ABV 2025/pag050_tech.jpg"
+        "data/products/ABV 2025/pag050_amb.jpg",
+        "data/products/ABV 2025/pag050_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 50
@@ -457,8 +457,8 @@
         "Silício"
       ],
       "imagens": [
-        "products/ABV 2025/pag042_amb.jpg",
-        "products/ABV 2025/pag042_tech.jpg"
+        "data/products/ABV 2025/pag042_amb.jpg",
+        "data/products/ABV 2025/pag042_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 42
@@ -474,8 +474,8 @@
         "Lacagianduia"
       ],
       "imagens": [
-        "products/ABV 2025/pag048_amb.jpg",
-        "products/ABV 2025/pag048_tech.jpg"
+        "data/products/ABV 2025/pag048_amb.jpg",
+        "data/products/ABV 2025/pag048_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 48
@@ -491,8 +491,8 @@
         "Vidroincolor"
       ],
       "imagens": [
-        "products/ABV 2025/pag054_amb.jpg",
-        "products/ABV 2025/pag054_tech.jpg"
+        "data/products/ABV 2025/pag054_amb.jpg",
+        "data/products/ABV 2025/pag054_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 54
@@ -507,8 +507,8 @@
         "Lacagianduia"
       ],
       "imagens": [
-        "products/ABV 2025/pag034_amb.jpg",
-        "products/ABV 2025/pag034_tech.jpg"
+        "data/products/ABV 2025/pag034_amb.jpg",
+        "data/products/ABV 2025/pag034_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 34
@@ -523,8 +523,8 @@
         "Savana"
       ],
       "imagens": [
-        "products/ABV 2025/pag030_amb.jpg",
-        "products/ABV 2025/pag030_tech.jpg"
+        "data/products/ABV 2025/pag030_amb.jpg",
+        "data/products/ABV 2025/pag030_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 30
@@ -539,8 +539,8 @@
         "Kashmir"
       ],
       "imagens": [
-        "products/ABV 2025/pag040_amb.jpg",
-        "products/ABV 2025/pag040_tech.jpg"
+        "data/products/ABV 2025/pag040_amb.jpg",
+        "data/products/ABV 2025/pag040_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 40
@@ -555,8 +555,8 @@
         "Savana"
       ],
       "imagens": [
-        "products/ABV 2025/pag022_amb.jpg",
-        "products/ABV 2025/pag022_tech.jpg"
+        "data/products/ABV 2025/pag022_amb.jpg",
+        "data/products/ABV 2025/pag022_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 22
@@ -571,8 +571,8 @@
         "Gianduia"
       ],
       "imagens": [
-        "products/ABV 2025/pag032_amb.jpg",
-        "products/ABV 2025/pag032_tech.jpg"
+        "data/products/ABV 2025/pag032_amb.jpg",
+        "data/products/ABV 2025/pag032_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 32
@@ -587,8 +587,8 @@
         "Lacapreto"
       ],
       "imagens": [
-        "products/ABV 2025/pag020_amb.jpg",
-        "products/ABV 2025/pag020_tech.jpg"
+        "data/products/ABV 2025/pag020_amb.jpg",
+        "data/products/ABV 2025/pag020_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 20
@@ -603,8 +603,8 @@
         "Offwhite"
       ],
       "imagens": [
-        "products/ABV 2025/pag024_amb.jpg",
-        "products/ABV 2025/pag024_tech.jpg"
+        "data/products/ABV 2025/pag024_amb.jpg",
+        "data/products/ABV 2025/pag024_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 24
@@ -619,8 +619,8 @@
         "Fog"
       ],
       "imagens": [
-        "products/ABV 2025/pag036_amb.jpg",
-        "products/ABV 2025/pag036_tech.jpg"
+        "data/products/ABV 2025/pag036_amb.jpg",
+        "data/products/ABV 2025/pag036_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 36
@@ -635,8 +635,8 @@
         "Fog"
       ],
       "imagens": [
-        "products/ABV 2025/pag026_amb.jpg",
-        "products/ABV 2025/pag026_tech.jpg"
+        "data/products/ABV 2025/pag026_amb.jpg",
+        "data/products/ABV 2025/pag026_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 26
@@ -651,8 +651,8 @@
         "Arenito"
       ],
       "imagens": [
-        "products/ABV 2025/pag028_amb.jpg",
-        "products/ABV 2025/pag028_tech.jpg"
+        "data/products/ABV 2025/pag028_amb.jpg",
+        "data/products/ABV 2025/pag028_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 28
@@ -668,8 +668,8 @@
         "Bronze"
       ],
       "imagens": [
-        "products/ABV 2025/pag038_amb.jpg",
-        "products/ABV 2025/pag038_tech.jpg"
+        "data/products/ABV 2025/pag038_amb.jpg",
+        "data/products/ABV 2025/pag038_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 38
@@ -681,8 +681,8 @@
       "dimensoes": "U - 75cm x 65cm x h.45cm / 72cm",
       "cores": [],
       "imagens": [
-        "products/ABV 2025/pag076_amb.jpg",
-        "products/ABV 2025/pag076_tech.jpg"
+        "data/products/ABV 2025/pag076_amb.jpg",
+        "data/products/ABV 2025/pag076_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 76
@@ -694,8 +694,8 @@
       "dimensoes": "U - 140cm x 45cm x h.43cm",
       "cores": [],
       "imagens": [
-        "products/ABV 2025/pag086_amb.jpg",
-        "products/ABV 2025/pag086_tech.jpg"
+        "data/products/ABV 2025/pag086_amb.jpg",
+        "data/products/ABV 2025/pag086_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 86
@@ -707,8 +707,8 @@
       "dimensoes": "P - Ø50cm x h.45cm | M - Ø60cm x h.45cm | G - Ø70cm x h.28cm",
       "cores": [],
       "imagens": [
-        "products/ABV 2025/pag078_amb.jpg",
-        "products/ABV 2025/pag078_tech.jpg"
+        "data/products/ABV 2025/pag078_amb.jpg",
+        "data/products/ABV 2025/pag078_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 78
@@ -724,8 +724,8 @@
         "Lourofreijó"
       ],
       "imagens": [
-        "products/ABV 2025/pag090_amb.jpg",
-        "products/ABV 2025/pag090_tech.jpg"
+        "data/products/ABV 2025/pag090_amb.jpg",
+        "data/products/ABV 2025/pag090_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 90
@@ -737,8 +737,8 @@
       "dimensoes": "P - Ø40cm x h.45cm | M - Ø50cm x h.45cm | G - Ø60cm x h.28cm | GG - Ø70cm x h.28cm",
       "cores": [],
       "imagens": [
-        "products/ABV 2025/pag084_amb.jpg",
-        "products/ABV 2025/pag084_tech.jpg"
+        "data/products/ABV 2025/pag084_amb.jpg",
+        "data/products/ABV 2025/pag084_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 84
@@ -750,8 +750,8 @@
       "dimensoes": "P - Ø40cm x h.45cm | M - Ø50cm x h.45cm | G - Ø60cm x h.28cm | GG - Ø70cm x h.28cm",
       "cores": [],
       "imagens": [
-        "products/ABV 2025/pag080_amb.jpg",
-        "products/ABV 2025/pag080_tech.jpg"
+        "data/products/ABV 2025/pag080_amb.jpg",
+        "data/products/ABV 2025/pag080_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 80
@@ -763,8 +763,8 @@
       "dimensoes": "P - Ø40cm x h.45cm | M - Ø50cm x h.45cm | G - Ø60cm x h.28cm | GG - Ø70cm x h.28cm",
       "cores": [],
       "imagens": [
-        "products/ABV 2025/pag082_amb.jpg",
-        "products/ABV 2025/pag082_tech.jpg"
+        "data/products/ABV 2025/pag082_amb.jpg",
+        "data/products/ABV 2025/pag082_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 82
@@ -779,8 +779,8 @@
         "Couríssimopalha"
       ],
       "imagens": [
-        "products/ABV 2025/pag088_amb.jpg",
-        "products/ABV 2025/pag088_tech.jpg"
+        "data/products/ABV 2025/pag088_amb.jpg",
+        "data/products/ABV 2025/pag088_tech.jpg"
       ],
       "fornecedor": "ABV Design de Móveis",
       "pag": 88

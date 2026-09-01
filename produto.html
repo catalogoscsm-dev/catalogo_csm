@@ -188,7 +188,8 @@ async function loadProduct() {
 
 function imgUrl(base, path) {
   if (!path) return '';
-  return base + path.replace(/\\/g, '/');
+  const encoded = path.replace(/\\/g, '/').split('/').map(encodeURIComponent).join('/');
+  return base + encoded;
 }
 
 function renderProduct(base) {

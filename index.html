@@ -248,13 +248,30 @@ function getFiltered() {
 function imgUrl(path) {
   if (!path) return '';
   const base = getBase();
-  return base + path.replace(/\\/g,'/');
+  // encode each path segment to handle spaces (e.g. "ABV 2025" → "ABV%202025")
+  const encoded = path.replace(/\\/g,'/').split('/').map(encodeURIComponent).join('/');
+  return base + encoded;
+}
+
+// Build a set of names that appear more than once (different size variants)
+function buildNameCounts(list) {
+  const counts = {};
+  list.forEach(p => { counts[p.nome] = (counts[p.nome]||0) + 1; });
+  return counts;
+}
+
+// Extract first size label from dimensoes string (e.g. "P - 60cm..." → "P")
+function firstSize(dims) {
+  if (!dims) return '';
+  const m = /^([A-Z][A-Z0-9]*(?:\s+[A-Z][A-Z0-9]*)*)\s*[-–]/i.exec(dims.trim());
+  return m ? m[1].trim() : '';
 }
 
 function render() {
   const list    = getFiltered();
   const stored  = storedSet();
   const grid    = document.getElementById('grid');
+  const counts  = buildNameCounts(list);
   document.getElementById('count').textContent = `${list.length} produto${list.length!==1?'s':''}`;
 
   if (!list.length) {
@@ -263,14 +280,16 @@ function render() {
   }
 
   grid.innerHTML = list.map(p => {
-    const img   = p.imagens && p.imagens[0] ? imgUrl(p.imagens[0]) : '';
-    const sel   = stored.has(p.id);
+    const img    = p.imagens && p.imagens[0] ? imgUrl(p.imagens[0]) : '';
+    const sel    = stored.has(p.id);
+    const sz     = counts[p.nome] > 1 ? firstSize(p.dimensoes) : '';
+    const badge  = sz ? `<span style="font-size:.7rem;font-weight:500;color:var(--text3);margin-left:4px">(${sz})</span>` : '';
     return `<div class="card${sel?' selected':''}" id="card-${p.id}" onclick="handleCard(event,${p.id})" data-id="${p.id}">
       <div class="card-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
       ${img ? `<img class="card-img" src="${img}" alt="${p.nome}" loading="lazy">` : `<div class="card-img"></div>`}
       <div class="card-body">
         <div class="card-cat">${p.categoria||''}</div>
-        <div class="card-name">${p.nome}</div>
+        <div class="card-name">${p.nome}${badge}</div>
         <div class="card-supplier">${p.fornecedor||''}</div>
       </div>
     </div>`;
