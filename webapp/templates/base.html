@@ -164,7 +164,8 @@
 
     <nav class="flex items-center gap-5 text-xs font-sans">
       {% if session.role == 'admin' %}
-      <span class="border border-gold text-gold px-2.5 py-1 rounded-full text-[10px] tracking-widest uppercase font-medium"
+      <!-- Modo admin ativo -->
+      <span class="border px-2.5 py-1 rounded-full text-[10px] tracking-widest uppercase font-medium"
             style="border-color:#FF7D00; color:#FF7D00;">
         Admin
       </span>
@@ -176,20 +177,90 @@
          class="transition-colors tracking-wider uppercase text-[10px]"
          style="color:var(--text-muted);"
          onmouseover="this.style.color='#FF7D00'" onmouseout="this.style.color='var(--text-muted)'">Fornecedores</a>
-      {% endif %}
-
-      <span class="hidden sm:inline tracking-wider text-[11px]" style="color:var(--text-muted);">{{ session.user }}</span>
-
-      <!-- Toggle light/dark -->
-      <button onclick="toggleTheme()" class="theme-toggle" title="Alternar tema" aria-label="Alternar tema claro/escuro"></button>
-
       <a href="/logout"
+         title="Sair do modo admin"
          class="transition-colors tracking-[0.2em] uppercase text-[10px]"
          style="color:var(--text-muted);"
          onmouseover="this.style.color='#FF7D00'" onmouseout="this.style.color='var(--text-muted)'">Sair</a>
+      {% else %}
+      <!-- Botão discreto para acesso admin -->
+      <button onclick="document.getElementById('admin-modal').classList.remove('hidden')"
+              title="Acesso administrativo"
+              class="transition-opacity opacity-30 hover:opacity-80"
+              style="color:var(--text-muted);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+        </svg>
+      </button>
+      {% endif %}
+
+      <!-- Toggle light/dark -->
+      <button onclick="toggleTheme()" class="theme-toggle" title="Alternar tema" aria-label="Alternar tema claro/escuro"></button>
     </nav>
   </div>
 </header>
+
+<!-- ── Modal login admin ────────────────────────────────────────────────── -->
+<div id="admin-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center"
+     style="background:rgba(0,0,0,0.6); backdrop-filter:blur(4px);"
+     onclick="if(event.target===this) this.classList.add('hidden')">
+  <div class="w-full max-w-xs mx-4 rounded-2xl p-8 relative"
+       style="background:#1e1e1e; border:1px solid rgba(255,125,0,0.3); box-shadow:0 20px 60px rgba(0,0,0,0.5);">
+
+    <!-- Fechar -->
+    <button onclick="document.getElementById('admin-modal').classList.add('hidden')"
+            class="absolute top-4 right-4 transition-opacity opacity-40 hover:opacity-100"
+            style="color:#fff;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+      </svg>
+    </button>
+
+    <p class="text-[10px] tracking-[0.3em] uppercase mb-6 font-sans text-center" style="color:#b0a898;">
+      Acesso Administrativo
+    </p>
+
+    {% if request.args.get('admin_error') %}
+    <div class="rounded-xl px-4 py-3 mb-5 text-xs font-sans text-center"
+         style="background:#3a1515; border:1px solid #7f2020; color:#f87171;">
+      Usuário ou senha inválidos.
+    </div>
+    {% endif %}
+
+    <form method="post" action="/admin/login" class="space-y-4">
+      <div>
+        <label class="block text-[10px] tracking-[0.2em] uppercase mb-2 font-sans" style="color:#b0a898;">Usuário</label>
+        <input name="username" type="text" autocomplete="username" required
+               class="w-full rounded-xl px-4 py-3 text-sm font-sans outline-none"
+               style="background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); color:#fff;"
+               onfocus="this.style.borderColor='#FF7D00'; this.style.boxShadow='0 0 0 3px rgba(255,125,0,0.15)'"
+               onblur="this.style.borderColor='rgba(255,255,255,0.15)'; this.style.boxShadow='none'">
+      </div>
+      <div>
+        <label class="block text-[10px] tracking-[0.2em] uppercase mb-2 font-sans" style="color:#b0a898;">Senha</label>
+        <input name="password" type="password" autocomplete="current-password" required
+               class="w-full rounded-xl px-4 py-3 text-sm font-sans outline-none"
+               style="background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.15); color:#fff;"
+               onfocus="this.style.borderColor='#FF7D00'; this.style.boxShadow='0 0 0 3px rgba(255,125,0,0.15)'"
+               onblur="this.style.borderColor='rgba(255,255,255,0.15)'; this.style.boxShadow='none'">
+      </div>
+      <button type="submit"
+              class="w-full py-3 rounded-xl text-[11px] tracking-[0.3em] uppercase font-medium font-sans transition-all mt-1"
+              style="background:#FF7D00; color:#fff;"
+              onmouseover="this.style.background='#CC6400'"
+              onmouseout="this.style.background='#FF7D00'">
+        Entrar
+      </button>
+    </form>
+  </div>
+</div>
+
+{% if request.args.get('admin_error') %}
+<script>
+  // Reabre o modal automaticamente se houve erro de login
+  document.getElementById('admin-modal').classList.remove('hidden');
+</script>
+{% endif %}
 
 <!-- ── Conteúdo ────────────────────────────────────────────────────────── -->
 <main class="max-w-screen-xl mx-auto px-6 sm:px-10 py-10">

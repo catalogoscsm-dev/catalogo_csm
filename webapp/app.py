@@ -31,8 +31,15 @@ app = Flask(__name__)
 app.secret_key = SECRET_KEY
 
 LOGO_PATH = Path(__file__).parent / "static" / "logo.png"
-WM_CACHE  = DATA_DIR / "watermarked"
-WM_CACHE.mkdir(exist_ok=True)
+# Em produção o repo pode ser read-only; usa /tmp como fallback
+_wm_primary = DATA_DIR / "watermarked"
+try:
+    _wm_primary.mkdir(exist_ok=True)
+    WM_CACHE = _wm_primary
+except OSError:
+    import tempfile
+    WM_CACHE = Path(tempfile.gettempdir()) / "csm_wm_cache"
+    WM_CACHE.mkdir(exist_ok=True)
 
 
 def _apply_watermark(img_path: Path) -> bytes:
@@ -99,23 +106,33 @@ def fromjson_filter(s):
 @app.template_filter("parse_dims")
 def parse_dims_filter(dim_str: str) -> list[dict]:
     """
-    'P - 115cm x 45cm x h.70cm | G - 155cm x 45cm x h.70cm'
-    → [{'size':'P','largura':'115cm','prof':'45cm','altura':'70cm'}, ...]
+    Formato retangular: 'P - 115cm x 45cm x h.70cm'
+    → [{'size':'P','largura':'115cm','prof':'45cm','altura':'70cm','circular':False}, ...]
+
+    Formato circular: 'P - Ø40cm x h.45cm'
+    → [{'size':'P','diametro':'40cm','altura':'45cm','circular':True}, ...]
     """
     if not dim_str:
         return []
     rows = []
     for part in dim_str.split("|"):
         part = part.strip()
-        m = re_module.match(r'^([A-Z]+)\s*[-–]\s*(.+)', part)
+        m = re_module.match(r'^([A-Z][A-Z0-9]*(?:\s+[A-Z][A-Z0-9]*)*)\s*[-–]\s*(.+)', part)
         if not m:
             continue
         size  = m.group(1)
         resto = m.group(2).strip()
-        # normalizar: "xh." e "x h." → " x h."
+
+        # Formato circular: começa com Ø ou ø
+        circ = re_module.match(r'^[Øø](\S+)\s+x\s+h\.?(\S+)', resto, re_module.IGNORECASE)
+        if circ:
+            rows.append({"size": size, "diametro": circ.group(1), "altura": circ.group(2), "circular": True})
+            continue
+
+        # Formato retangular
         resto = re_module.sub(r'x\s*h\.', 'x h.', resto)
         segments = [s.strip() for s in re_module.split(r'\s+x\s+', resto)]
-        row = {"size": size}
+        row: dict = {"size": size, "circular": False}
         keys = ["largura", "prof", "altura"]
         for i, seg in enumerate(segments):
             val = re_module.sub(r'^h\.', '', seg).strip()
@@ -139,51 +156,38 @@ with app.app_context():
 
 # ── Decoradores de autenticação ──────────────────────────────────────────────
 
-def login_required(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        if "user" not in session:
-            return redirect(url_for("login"))
-        return f(*args, **kwargs)
-    return decorated
-
-
 def admin_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        if "user" not in session or session.get("role") != "admin":
-            return redirect(url_for("login"))
+        if session.get("role") != "admin":
+            return redirect(url_for("catalog"))
         return f(*args, **kwargs)
     return decorated
 
 
 # ── Autenticação ─────────────────────────────────────────────────────────────
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    error = None
-    if request.method == "POST":
-        username = request.form.get("username", "").strip()
-        password = request.form.get("password", "")
-        user = USERS.get(username)
-        if user and user["password"] == password:
-            session["user"] = username
-            session["role"] = user["role"]
-            return redirect(url_for("catalog"))
-        error = "Usuário ou senha inválidos."
-    return render_template("login.html", error=error)
+@app.route("/admin/login", methods=["POST"])
+def admin_login():
+    username = request.form.get("username", "").strip()
+    password = request.form.get("password", "")
+    user = USERS.get(username)
+    if user and user["password"] == password and user["role"] == "admin":
+        session["user"] = username
+        session["role"] = "admin"
+        return redirect(url_for("catalog"))
+    return redirect(url_for("catalog", admin_error=1))
 
 
 @app.route("/logout")
 def logout():
     session.clear()
-    return redirect(url_for("login"))
+    return redirect(url_for("catalog"))
 
 
 # ── Catálogo ─────────────────────────────────────────────────────────────────
 
 @app.route("/")
-@login_required
 def catalog():
     q         = request.args.get("q", "").strip()
     categoria = request.args.get("categoria", "").strip()
@@ -204,7 +208,6 @@ def catalog():
 # ── Detalhe do produto ────────────────────────────────────────────────────────
 
 @app.route("/produto/<int:pid>")
-@login_required
 def product_detail(pid):
     from loader import get_db, search_products
     is_admin = session.get("role") == "admin"
@@ -242,7 +245,6 @@ def product_detail(pid):
 # ── Servir imagens com marca d'água ──────────────────────────────────────────
 
 @app.route("/imagem/<path:subpath>")
-@login_required
 def serve_image(subpath):
     return _serve_watermarked(subpath)
 
@@ -280,7 +282,6 @@ def api_supplier_config():
 # ── Exportar PDF ─────────────────────────────────────────────────────────────
 
 @app.route("/exportar-pdf", methods=["POST"])
-@login_required
 def exportar_pdf():
     from loader import get_db
     from pdf_export import build_pdf
@@ -303,11 +304,26 @@ def exportar_pdf():
     conn.close()
 
     products = [dict(r) for r in rows]
+    if not products:
+        # IDs não existem no banco (ex: localStorage com IDs antigos após reconstrução do banco)
+        return (
+            "<h2>Nenhum produto encontrado.</h2>"
+            "<p>Os produtos selecionados já não existem. "
+            "Por favor limpe a seleção no browser e selecione novamente.</p>"
+            "<p><b>No browser: F12 → Console → "
+            "<code>localStorage.removeItem('csm_selected_ids')</code> → F5</b></p>",
+            400,
+        )
+
     # Mantém a ordem de seleção do usuário
     order = {pid: i for i, pid in enumerate(ids)}
     products.sort(key=lambda p: order.get(p["id"], 999))
 
-    pdf_bytes = build_pdf(products)
+    try:
+        pdf_bytes = build_pdf(products)
+    except Exception as exc:
+        app.logger.error("Erro ao gerar PDF: %s", exc, exc_info=True)
+        return f"Erro ao gerar PDF: {exc}", 500
 
     from datetime import datetime
     filename = f"CSM_Decor_{datetime.now().strftime('%Y%m%d_%H%M')}.pdf"

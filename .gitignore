@@ -6,13 +6,35 @@ __pycache__/
 dist/
 build/
 
-# Dados locais (PDFs, imagens renderizadas, JSONs extraídos, BD)
+# PDFs originais (demasiado grandes para o repo)
 data/pdfs/
 data/output/
 data/checkpoints/
 data/preview/
-data/*.db
+
+# Cache local de marca d'água (regenerado automaticamente)
+data/watermarked/
 
 # IDEs
 .vscode/
 .idea/
+
+# Ficheiros de debug / teste temporários
+check_abv.py
+debug_*.py
+diag*.py
+fix_pag006.py
+inspect_aco.py
+list_abv.py
+patch_abv.py
+run_abv.py
+test_vision.py
+teste_export.pdf
+webapp/test_*.pdf
+webapp/test_*.py
+preview_pdf.py
+webapp/loader_bkp.py
+
+# OS
+.DS_Store
+Thumbs.db

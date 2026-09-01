@@ -143,6 +143,12 @@ def ingest_all_jsons(force: bool = False) -> int:
             data = json.load(f)
 
         produtos = data.get("produtos", [])
+
+        # Protecção contra JSONs vazios: não apaga produtos existentes
+        if not produtos:
+            print(f"[loader] {pdf_name}: JSON sem produtos — ignorado")
+            continue
+
         fornecedor_pdf = data.get("fornecedor", pdf_name)
         configs = get_supplier_configs()
         incluir_tec = configs.get(fornecedor_pdf, True)

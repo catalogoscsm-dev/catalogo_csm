@@ -11,8 +11,149 @@
   <div class="gold-rule max-w-xs mx-auto mt-4"></div>
 </div>
 
+<!-- ── Estilos do dropdown customizado ───────────────────────────────────── -->
+<style>
+  .csm-dropdown { position: relative; min-width: 200px; }
+
+  /* Botão disparador */
+  .csm-dropdown-trigger {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    width: 100%; padding: 12px 18px;
+    border-radius: 99px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Inter', sans-serif; font-size: 13px;
+    cursor: pointer; user-select: none;
+    transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+    white-space: nowrap;
+  }
+  .csm-dropdown-trigger:hover {
+    border-color: #FF7D00;
+    box-shadow: 0 0 0 3px rgba(255,125,0,0.08);
+  }
+  .csm-dropdown.open .csm-dropdown-trigger {
+    border-color: #FF7D00;
+    box-shadow: 0 0 0 3px rgba(255,125,0,0.10);
+    border-radius: 20px 20px 0 0;
+    border-bottom-color: transparent;
+  }
+
+  /* Ícone chevron */
+  .csm-dropdown-chevron {
+    flex-shrink: 0; width: 14px; height: 14px;
+    color: #FF7D00; opacity: .7;
+    transition: transform .35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity .25s;
+  }
+  .csm-dropdown.open .csm-dropdown-chevron {
+    transform: rotate(180deg); opacity: 1;
+  }
+
+  /* Painel de opções */
+  .csm-dropdown-panel {
+    position: absolute; top: 100%; left: 0; right: 0;
+    z-index: 200;
+    background: var(--bg-input);
+    border: 1px solid #FF7D00;
+    border-top: none;
+    border-radius: 0 0 20px 20px;
+    overflow: hidden;
+
+    /* Estado fechado */
+    opacity: 0;
+    transform: translateY(-6px) scaleY(0.92);
+    transform-origin: top center;
+    pointer-events: none;
+    transition:
+      opacity .28s cubic-bezier(0.4, 0, 0.2, 1),
+      transform .32s cubic-bezier(0.34, 1.2, 0.64, 1);
+
+    box-shadow:
+      0 16px 40px rgba(0,0,0,0.12),
+      0 4px 12px rgba(255,125,0,0.08);
+  }
+  .csm-dropdown.open .csm-dropdown-panel {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+    pointer-events: all;
+  }
+
+  /* Scroll interno */
+  .csm-dropdown-list {
+    max-height: 280px;
+    overflow-y: auto;
+    padding: 6px 0 10px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,125,0,0.3) transparent;
+  }
+  .csm-dropdown-list::-webkit-scrollbar { width: 4px; }
+  .csm-dropdown-list::-webkit-scrollbar-thumb {
+    background: rgba(255,125,0,0.3); border-radius: 4px;
+  }
+
+  /* Cada opção */
+  .csm-dropdown-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 18px;
+    font-family: 'Inter', sans-serif; font-size: 12px;
+    color: var(--text-soft);
+    cursor: pointer;
+    transition: background .18s ease, color .18s ease, padding-left .2s ease;
+    position: relative;
+  }
+  .csm-dropdown-item:hover {
+    background: rgba(255,125,0,0.06);
+    color: #FF7D00;
+    padding-left: 24px;
+  }
+  .csm-dropdown-item.active {
+    color: #FF7D00;
+    font-weight: 500;
+    padding-left: 24px;
+  }
+
+  /* Bolinha indicadora */
+  .csm-dropdown-item::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #FF7D00;
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity .2s ease, transform .2s ease;
+    transform: scale(0.4);
+  }
+  .csm-dropdown-item:hover::before,
+  .csm-dropdown-item.active::before {
+    opacity: 1; transform: scale(1);
+  }
+
+  /* Separador "Todas" */
+  .csm-dropdown-item.all-item {
+    font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-soft);
+    margin-bottom: 4px; padding-bottom: 12px;
+  }
+  .csm-dropdown-item.all-item.active { color: #FF7D00; }
+
+  /* Animação escalonada das opções ao abrir */
+  @keyframes itemSlide {
+    from { opacity: 0; transform: translateX(-8px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  .csm-dropdown.open .csm-dropdown-item {
+    animation: itemSlide .22s ease both;
+  }
+  {% for cat in categorias %}
+  .csm-dropdown.open .csm-dropdown-item:nth-child({{ loop.index + 1 }}) {
+    animation-delay: {{ loop.index * 0.03 }}s;
+  }
+  {% endfor %}
+</style>
+
 <!-- ── Busca + filtros ────────────────────────────────────────────────────── -->
-<form method="get" class="mb-8 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+<form method="get" id="filter-form" class="mb-8 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
   <div class="relative flex-1">
     <span class="absolute left-4 top-1/2 -translate-y-1/2" style="color:var(--text-muted);">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -26,15 +167,35 @@
     >
   </div>
 
-  <select name="categoria"
-          class="csm-input rounded-full px-4 py-3 text-sm font-sans"
-          style="min-width:180px;"
-          onchange="this.form.submit()">
-    <option value="">Todas as categorias</option>
-    {% for cat in categorias %}
-    <option value="{{ cat }}" {% if cat == categoria %}selected{% endif %}>{{ cat }}</option>
-    {% endfor %}
-  </select>
+  <!-- Campo hidden que submete a categoria selecionada -->
+  <input type="hidden" name="categoria" id="categoria-input" value="{{ categoria }}">
+
+  <!-- Dropdown customizado -->
+  <div class="csm-dropdown" id="cat-dropdown">
+    <button type="button" class="csm-dropdown-trigger" id="cat-trigger" aria-haspopup="listbox" aria-expanded="false">
+      <span id="cat-label">
+        {% if categoria %}{{ categoria }}{% else %}Todas as categorias{% endif %}
+      </span>
+      <svg class="csm-dropdown-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+      </svg>
+    </button>
+
+    <div class="csm-dropdown-panel" role="listbox">
+      <div class="csm-dropdown-list">
+        <div class="csm-dropdown-item all-item {% if not categoria %}active{% endif %}"
+             data-value="" role="option">
+          Todas as categorias
+        </div>
+        {% for cat in categorias %}
+        <div class="csm-dropdown-item {% if cat == categoria %}active{% endif %}"
+             data-value="{{ cat }}" role="option">
+          {{ cat }}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 
   <button type="submit"
           class="rounded-full px-7 py-3 text-[11px] tracking-[0.25em] uppercase font-medium font-sans transition-all shrink-0"
@@ -44,6 +205,97 @@
     Buscar
   </button>
 </form>
+
+<script>
+(function () {
+  var dropdown = document.getElementById('cat-dropdown');
+  var trigger  = document.getElementById('cat-trigger');
+  var input    = document.getElementById('categoria-input');
+  var label    = document.getElementById('cat-label');
+  var form     = document.getElementById('filter-form');
+
+  function open() {
+    dropdown.classList.add('open');
+    trigger.setAttribute('aria-expanded', 'true');
+  }
+  function close() {
+    dropdown.classList.remove('open');
+    trigger.setAttribute('aria-expanded', 'false');
+  }
+  function toggle() {
+    dropdown.classList.contains('open') ? close() : open();
+  }
+
+  trigger.addEventListener('click', function (e) { e.stopPropagation(); toggle(); });
+
+  document.querySelectorAll('.csm-dropdown-item').forEach(function (item) {
+    item.addEventListener('click', function () {
+      var val = item.getAttribute('data-value');
+      input.value = val;
+      label.textContent = val || 'Todas as categorias';
+
+      document.querySelectorAll('.csm-dropdown-item').forEach(function (i) {
+        i.classList.remove('active');
+      });
+      item.classList.add('active');
+
+      close();
+      form.submit();
+    });
+  });
+
+  // Fecha ao clicar fora
+  document.addEventListener('click', function (e) {
+    if (!dropdown.contains(e.target)) close();
+  });
+
+  // Fecha com Escape
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') close();
+  });
+})();
+</script>
+
+<!-- ── Estilos de seleção de cards ────────────────────────────────────────── -->
+<style>
+  .card-wrap { transition: box-shadow 0.25s ease, transform 0.2s ease; }
+
+  /* Anel dourado ao selecionar */
+  .card-wrap.selected {
+    box-shadow: 0 0 0 2.5px #FF7D00, 0 4px 20px rgba(255,125,0,0.18) !important;
+  }
+
+  /* Indicador de check no canto */
+  .card-check {
+    position: absolute; top: 10px; right: 10px; z-index: 20;
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid rgba(255,125,0,0.7);
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18), 0 0 0 1.5px rgba(255,125,0,0.2);
+    opacity: 0; transform: scale(0.5);
+    transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    pointer-events: none;
+  }
+  .card-check svg { opacity: 0; transition: opacity 0.2s ease; }
+
+  /* Modo seleção: mostra indicadores */
+  body.select-mode .card-check { opacity: 1; transform: scale(1); }
+
+  /* Card selecionado: check preenchido */
+  .card-wrap.selected .card-check {
+    background: #FF7D00;
+    border-color: #FF7D00;
+    box-shadow: 0 0 10px rgba(255,125,0,0.4);
+  }
+  .card-wrap.selected .card-check svg { opacity: 1; }
+
+  /* Cursor do card em modo seleção */
+  body.select-mode .card-wrap { cursor: crosshair; }
+  body.select-mode .card-wrap:hover { transform: scale(1.02); }
+  body.select-mode .card-wrap.selected:hover { transform: scale(1.01); }
+</style>
 
 <!-- ── Barra de resultado + seleção ──────────────────────────────────────── -->
 <div class="flex items-center justify-between mb-5">
@@ -56,11 +308,24 @@
   </p>
 
   {% if is_admin %}
-  <button id="btn-select-mode" onclick="toggleSelectMode()"
-          class="text-[10px] tracking-widest uppercase font-sans px-4 py-2 rounded-full transition-all"
-          style="border:1px solid var(--border); color:var(--text-muted);">
-    Selecionar
-  </button>
+  <div class="flex items-center gap-2">
+    <!-- Botões de página (aparecem só em modo seleção) -->
+    <button id="btn-select-page" onclick="selectPage()"
+            class="hidden text-[10px] tracking-widest uppercase font-sans px-3 py-2 rounded-full transition-all"
+            style="border:1px solid #FF7D00; color:#FF7D00;">
+      Sel. página
+    </button>
+    <button id="btn-deselect-page" onclick="deselectPage()"
+            class="hidden text-[10px] tracking-widest uppercase font-sans px-3 py-2 rounded-full transition-all"
+            style="border:1px solid var(--border); color:var(--text-muted);">
+      Dessel. página
+    </button>
+    <button id="btn-select-mode" onclick="toggleSelectMode()"
+            class="text-[10px] tracking-widest uppercase font-sans px-4 py-2 rounded-full transition-all"
+            style="border:1px solid var(--border); color:var(--text-muted);">
+      Selecionar
+    </button>
+  </div>
   {% endif %}
 </div>
 
@@ -72,27 +337,26 @@
   <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
     {% for p in products %}
     {% set imgs = p.imagens | fromjson %}
-    {% set img_url = "/imagem/" ~ imgs[0] if imgs else "" %}
+    {% set img_url = "/imagem/" ~ (imgs[1] if imgs | length > 1 else imgs[0]) if imgs else "" %}
 
-    <div class="card-wrap csm-card group relative rounded-2xl overflow-hidden cursor-pointer"
-         style="box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+    <div class="card-wrap csm-card group relative rounded-2xl overflow-hidden"
+         id="card-{{ p.id }}"
+         style="box-shadow:0 2px 12px rgba(0,0,0,0.08);"
+         onclick="handleCardClick(event, {{ p.id }})">
 
-      <!-- Checkbox de seleção -->
-      <label class="select-checkbox hidden absolute top-2 left-2 z-20 cursor-pointer"
-             onclick="event.stopPropagation()">
-        <input type="checkbox" class="hidden" value="{{ p.id }}" onchange="updateSelection()">
-        <span class="flex items-center justify-center w-6 h-6 rounded-full border-2 transition-all"
-              style="border-color:#FFD4A8; background:rgba(250,250,248,0.9);" data-box>
-          <svg class="w-3 h-3 hidden" fill="none" stroke="#FF7D00" stroke-width="2.5"
-               viewBox="0 0 24 24" data-check>
-            <path d="M5 13l4 4L19 7"/>
-          </svg>
-        </span>
-      </label>
+      <!-- Checkbox hidden para submissão -->
+      <input type="checkbox" class="card-checkbox hidden" value="{{ p.id }}">
+
+      <!-- Indicador visual de seleção -->
+      <div class="card-check">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="#fff" stroke-width="3" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+        </svg>
+      </div>
 
       <!-- Imagem -->
       <a href="/produto/{{ p.id }}{% if q %}?q={{ q | urlencode }}{% endif %}{% if categoria %}&categoria={{ categoria | urlencode }}{% endif %}"
-         class="block aspect-[3/4] overflow-hidden relative"
+         class="block aspect-[3/4] overflow-hidden relative card-link"
          style="background:var(--bg-card);">
         {% if img_url %}
         <img src="{{ img_url }}" alt="{{ p.nome }}" class="card-img w-full h-full object-contain">
@@ -126,7 +390,7 @@
     <button type="button" onclick="clearSelection()"
             class="text-xs font-sans tracking-wide transition-colors" style="color:#b0a898;"
             onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#b0a898'">Limpar</button>
-    <button type="submit" onclick="submitExport()"
+    <button type="button" onclick="submitExport()"
             class="rounded-full px-6 py-2.5 text-[11px] tracking-[0.2em] uppercase font-medium font-sans transition-all"
             style="background:#FF7D00; color:#fff;"
             onmouseover="this.style.background='#CC6400'" onmouseout="this.style.background='#FF7D00'">
@@ -191,63 +455,173 @@
 
 <!-- ── Scripts de seleção ─────────────────────────────────────────────────── -->
 <script>
+const LS_KEY = 'csm_selected_ids';
 let selectMode = false;
 
-function toggleSelectMode() {
-  selectMode = !selectMode;
-  const btn = document.getElementById('btn-select-mode');
-  const checkboxes = document.querySelectorAll('.select-checkbox');
-  if (selectMode) {
-    btn.textContent = 'Cancelar';
-    btn.style.borderColor = '#FF7D00';
-    btn.style.color = '#FF7D00';
-    checkboxes.forEach(el => el.classList.remove('hidden'));
+/* ── localStorage helpers ──────────────────────────────────────────────── */
+function _storedSet() {
+  try { return new Set(JSON.parse(localStorage.getItem(LS_KEY) || '[]')); }
+  catch { return new Set(); }
+}
+function _saveSet(s) {
+  localStorage.setItem(LS_KEY, JSON.stringify([...s]));
+}
+function _storedAdd(pid) { const s = _storedSet(); s.add(pid); _saveSet(s); }
+function _storedRemove(pid) { const s = _storedSet(); s.delete(pid); _saveSet(s); }
+function _storedClear() { localStorage.removeItem(LS_KEY); }
+
+/* ── Visual de card ──────────────────────────────────────────────────── */
+function _applyCardVisual(card, selected) {
+  if (selected) {
+    card.classList.add('selected');
+    card.style.boxShadow = '';
   } else {
-    btn.textContent = 'Selecionar';
-    btn.style.borderColor = '';
-    btn.style.color = '';
-    checkboxes.forEach(el => el.classList.add('hidden'));
-    clearSelection();
+    card.classList.remove('selected');
+    card.style.boxShadow = '0 2px 12px rgba(0,0,0,0.08)';
   }
 }
 
-function updateSelection() {
-  const checked = document.querySelectorAll('.select-checkbox input:checked');
-  const bar = document.getElementById('export-bar');
-  const count = document.getElementById('export-count');
-  document.querySelectorAll('.select-checkbox').forEach(label => {
-    const inp = label.querySelector('input');
-    const box = label.querySelector('[data-box]');
-    const chk = label.querySelector('[data-check]');
-    if (inp.checked) {
-      box.style.background = '#FF7D00';
-      box.style.borderColor = '#FF7D00';
-      chk.classList.remove('hidden');
-      chk.style.stroke = '#fff';
-    } else {
-      box.style.background = 'rgba(250,250,248,0.9)';
-      box.style.borderColor = '#FFD4A8';
-      chk.classList.add('hidden');
+/* ── Ativar/desativar modo seleção ──────────────────────────────────── */
+function _setSelectModeUI(active) {
+  selectMode = active;
+  const btn = document.getElementById('btn-select-mode');
+  const btnSel = document.getElementById('btn-select-page');
+  const btnDesel = document.getElementById('btn-deselect-page');
+  document.body.classList.toggle('select-mode', active);
+  btn.textContent = active ? 'Cancelar' : 'Selecionar';
+  btn.style.borderColor = active ? '#FF7D00' : '';
+  btn.style.color = active ? '#FF7D00' : '';
+  if (btnSel) btnSel.classList.toggle('hidden', !active);
+  if (btnDesel) btnDesel.classList.toggle('hidden', !active);
+}
+
+function toggleSelectMode() {
+  if (selectMode) {
+    _setSelectModeUI(false);
+    _storedClear();
+    document.querySelectorAll('.card-wrap').forEach(c => _applyCardVisual(c, false));
+    updateSelection();
+  } else {
+    _setSelectModeUI(true);
+    // Restaura seleções salvas nesta página
+    _restorePageSelections();
+    updateSelection();
+  }
+}
+
+/* ── Restaurar seleções da página atual via localStorage ─────────────── */
+function _restorePageSelections() {
+  const stored = _storedSet();
+  if (stored.size === 0) return;
+  document.querySelectorAll('.card-wrap').forEach(card => {
+    const cb = card.querySelector('.card-checkbox');
+    if (cb && stored.has(parseInt(cb.value))) {
+      cb.checked = true;
+      _applyCardVisual(card, true);
     }
   });
-  if (checked.length > 0) {
+}
+
+/* ── Clique no card ─────────────────────────────────────────────────── */
+function handleCardClick(event, pid) {
+  if (!selectMode) return;
+  event.preventDefault();
+  event.stopPropagation();
+
+  const card = document.getElementById('card-' + pid);
+  const checkbox = card.querySelector('.card-checkbox');
+  checkbox.checked = !checkbox.checked;
+  _applyCardVisual(card, checkbox.checked);
+
+  if (checkbox.checked) _storedAdd(pid);
+  else _storedRemove(pid);
+
+  updateSelection();
+}
+
+/* ── Atualizar barra de exportação (mostra total global) ─────────────── */
+function updateSelection() {
+  const total = _storedSet().size;
+  const bar = document.getElementById('export-bar');
+  const count = document.getElementById('export-count');
+  if (total > 0) {
     bar.classList.remove('hidden');
-    count.textContent = checked.length === 1 ? '1 produto selecionado' : `${checked.length} produtos selecionados`;
+    count.textContent = total === 1 ? '1 produto selecionado' : `${total} produtos selecionados`;
   } else {
     bar.classList.add('hidden');
   }
 }
 
-function clearSelection() {
-  document.querySelectorAll('.select-checkbox input').forEach(inp => inp.checked = false);
+/* ── Selecionar / desselecionar página ───────────────────────────────── */
+function selectPage() {
+  document.querySelectorAll('.card-wrap').forEach(card => {
+    const cb = card.querySelector('.card-checkbox');
+    if (cb) {
+      cb.checked = true;
+      _applyCardVisual(card, true);
+      _storedAdd(parseInt(cb.value));
+    }
+  });
   updateSelection();
 }
 
-function submitExport() {
-  const ids = Array.from(document.querySelectorAll('.select-checkbox input:checked'))
-    .map(inp => inp.value).join(',');
-  document.getElementById('selected-ids-input').value = ids;
+function deselectPage() {
+  document.querySelectorAll('.card-wrap').forEach(card => {
+    const cb = card.querySelector('.card-checkbox');
+    if (cb) {
+      cb.checked = false;
+      _applyCardVisual(card, false);
+      _storedRemove(parseInt(cb.value));
+    }
+  });
+  updateSelection();
 }
+
+/* ── Limpar tudo ──────────────────────────────────────────────────────── */
+function clearSelection() {
+  _storedClear();
+  document.querySelectorAll('.card-wrap').forEach(c => {
+    const cb = c.querySelector('.card-checkbox');
+    if (cb) cb.checked = false;
+    _applyCardVisual(c, false);
+  });
+  updateSelection();
+}
+
+/* ── Submeter exportação (usa IDs globais do localStorage) ──────────── */
+function submitExport() {
+  const stored = _storedSet();
+  if (stored.size === 0) return;
+
+  const ids = [...stored].join(',');
+  document.getElementById('selected-ids-input').value = ids;
+
+  // Feedback visual no botão
+  const btn = event.currentTarget;
+  const original = btn.textContent;
+  btn.textContent = 'Gerando…';
+  btn.disabled = true;
+  btn.style.opacity = '0.7';
+
+  // Restaura o botão após o download iniciar (o form navega para o PDF)
+  setTimeout(() => {
+    btn.textContent = original;
+    btn.disabled = false;
+    btn.style.opacity = '1';
+  }, 4000);
+
+  document.getElementById('export-form').submit();
+}
+
+/* ── Inicialização ────────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', function () {
+  const stored = _storedSet();
+  if (stored.size > 0) {
+    _setSelectModeUI(true);
+    _restorePageSelections();
+    updateSelection();
+  }
+});
 </script>
 
 {% endblock %}

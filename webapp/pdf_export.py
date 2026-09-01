@@ -163,19 +163,46 @@ BODY_H   = PH - MY - HEADER_H - FOOTER_H  # altura disponível para imagens+spec
 # ─────────────────────────────────────────────────────────────────────────────
 
 def _parse_dims(dim_str: str) -> list[dict]:
-    """Converte 'P - 115cm x 45cm x h.70cm | G - ...' em lista de dicts."""
+    """Converte string de dimensões em lista de dicts.
+
+    Suporta:
+      P - 115cm x 45cm x h.70cm
+      MD1 - 110cm x 40cm x h.200cm
+      QUAD P - 60cm x 60cm x h.34cm
+      RED P - Ø70cm x h.35cm   (circular)
+    """
     rows = []
+    # size code: letras/dígitos com palavra extra opcional (ex: MD1, QUAD P, RED G)
+    _pat = re.compile(
+        r'^([A-Z][A-Z0-9]*(?:\s+[A-Z][A-Z0-9]*)*)\s*[-–]\s*(.+)',
+        re.IGNORECASE,
+    )
     for part in dim_str.split("|"):
         part = part.strip()
-        m = re.match(r'^([A-Z]+)\s*[-–]\s*(.+)', part)
+        m = _pat.match(part)
         if not m:
             continue
-        size  = m.group(1)
-        resto = re.sub(r'x\s*h\.', 'x h.', m.group(2).strip())
+        size  = m.group(1).strip().upper()
+        resto = m.group(2).strip()
+
+        # Circular: Ø70cm x h.35cm
+        circ = re.match(r'^[Øø](\S+)\s+x\s+h\.?(\S+)', resto, re.IGNORECASE)
+        if circ:
+            rows.append({
+                "size": size,
+                "l": f"Ø{circ.group(1)}",
+                "p": "—",
+                "a": circ.group(2),
+                "circular": True,
+            })
+            continue
+
+        # Retangular: normaliza "x h." e divide
+        resto = re.sub(r'x\s*h\.', 'x h.', resto)
         segs  = [s.strip().lstrip("h.") for s in re.split(r'\s+x\s+', resto)]
         while len(segs) < 3:
             segs.append("—")
-        rows.append({"size": size, "l": segs[0], "p": segs[1], "a": segs[2]})
+        rows.append({"size": size, "l": segs[0], "p": segs[1], "a": segs[2], "circular": False})
     return rows
 
 
@@ -263,64 +290,185 @@ class CatalogPDF(FPDF):
         self.rect(ox, y, dw, dh)
         return dh
 
+    # ── helpers de capa ───────────────────────────────────────────────────────
+
+    def _cover_gradient_bg(self):
+        """Fundo escuro com vinheta central simulada por faixas."""
+        BG_DARK  = (6,  6,  9)
+        BG_MID   = (16, 14, 20)
+        BG_SPOT  = (28, 24, 34)
+
+        # Base absoluta escura
+        self.set_fill_color(*BG_DARK)
+        self.rect(0, 0, PW, PH, "F")
+
+        # Vinheta central — faixas horizontais do centro para as bordas
+        cx, cy = PW / 2, PH * 0.44
+        steps = 28
+        for i in range(steps, 0, -1):
+            t = i / steps                    # 1 = borda, 0 = centro
+            w = PW * (0.15 + 0.85 * t)
+            h = PH * (0.10 + 0.90 * t)
+            r = int(BG_SPOT[0] + (BG_DARK[0] - BG_SPOT[0]) * t)
+            g = int(BG_SPOT[1] + (BG_DARK[1] - BG_SPOT[1]) * t)
+            b = int(BG_SPOT[2] + (BG_DARK[2] - BG_SPOT[2]) * t)
+            self.set_fill_color(r, g, b)
+            self.rect(cx - w/2, cy - h/2, w, h, "F")
+
+        # Banda central horizontal levemente mais clara (drama)
+        self.set_fill_color(*BG_MID)
+        self.rect(0, cy - 52, PW, 104, "F")
+
+    def _cover_frame(self):
+        """Moldura dupla dourada com cantoneiras ornamentais."""
+        FM  = 9.0   # margem externa da moldura
+        FM2 = 11.5  # moldura interna
+        CNR = 18    # comprimento das cantoneiras
+
+        # Moldura externa
+        self.set_draw_color(*GOLD)
+        self.set_line_width(0.45)
+        self.rect(FM, FM, PW - 2*FM, PH - 2*FM)
+
+        # Moldura interna (mais fina)
+        self.set_draw_color(180, 120, 40)
+        self.set_line_width(0.15)
+        self.rect(FM2, FM2, PW - 2*FM2, PH - 2*FM2)
+
+        # Cantoneiras em L (dourado espesso)
+        self.set_draw_color(*GOLD)
+        self.set_line_width(0.9)
+        e = FM  # ponto de canto
+
+        def _corner(x0, y0, dx, dy):
+            self.line(x0, y0, x0 + dx * CNR, y0)
+            self.line(x0, y0, x0, y0 + dy * CNR)
+
+        _corner(e, e,       +1, +1)
+        _corner(PW-e, e,   -1, +1)
+        _corner(e, PH-e,   +1, -1)
+        _corner(PW-e, PH-e, -1, -1)
+
+        # Pequenos losangos nos cantos (ornamento)
+        self.set_fill_color(*GOLD)
+        sz = 1.6
+        for x, y in [(e, e), (PW-e, e), (e, PH-e), (PW-e, PH-e)]:
+            self.set_xy(x - sz, y - sz)
+            self.ellipse(x - sz, y - sz, sz*2, sz*2, "F")
+
+    def _cover_divider(self, y: float, w_frac: float = 0.55, with_diamond: bool = True):
+        """Linha horizontal dourada com losango central opcional."""
+        lw = CW * w_frac
+        lx = (PW - lw) / 2
+        cx = PW / 2
+
+        self.set_draw_color(*GOLD)
+        self.set_line_width(0.35)
+        self.line(lx, y, cx - 3, y)
+        self.line(cx + 3, y, lx + lw, y)
+
+        if with_diamond:
+            self.set_fill_color(*GOLD)
+            d = 1.8
+            pts = [(cx, y - d), (cx + d, y), (cx, y + d), (cx - d, y)]
+            # Losango via ellipse
+            self.ellipse(cx - d, y - d, d*2, d*2, "F")
+
     # ── capa ──────────────────────────────────────────────────────────────────
 
     def cover_page(self, total: int, subtitle: str = "Seleção de Produtos"):
         self.add_page()
 
-        # fundo cream
-        self.set_fill_color(*CREAM)
-        self.rect(0, 0, PW, PH, "F")
+        # ── Fundo e moldura ───────────────────────────────────────────────────
+        self._cover_gradient_bg()
+        self._cover_frame()
 
-        # ── Layout com posicionamento absoluto para evitar sobreposição ───────
-        # Zona do conteúdo: entre y=85 e y=195
-        LINE_TOP  = 88   # linha decorativa superior
-        LOGO_Y    = 98   # topo do logo
-        LOGO_W    = 62   # largura do logo
-        TITLE_Y   = 152  # título (abaixo do logo com margem)
-        SUBS_Y    = 166  # subtítulo
-        INFO_Y    = 176  # linha de info (qtd + data)
-        LINE_BOT  = 187  # linha decorativa inferior
+        # ── Zona central: logo ────────────────────────────────────────────────
+        LOGO_W  = 78
+        LOGO_Y  = PH * 0.44 - 22
 
-        # Linhas decorativas laranja
-        self._gold_line(MX, LINE_TOP, CW, 0.6)
-        self._gold_line(MX, LINE_BOT, CW, 0.6)
-
-        # Logo CSM — centrado, com espaço garantido antes do título
         if LOGO_PATH.exists():
-            logo_x = (PW - LOGO_W) / 2
-            self.image(str(LOGO_PATH), x=logo_x, y=LOGO_Y, w=LOGO_W)
+            try:
+                from PIL import Image as PILImage
+                import io as _io
+                with PILImage.open(LOGO_PATH) as im:
+                    img = im.convert("RGBA")
+                    iw, ih = im.size
+                # Inverte para fundo escuro: pixels escuros → claros dourados
+                data = img.getdata()
+                new_data = []
+                for r, g, b, a in data:
+                    if r > 220 and g > 220 and b > 220:
+                        # branco → transparente
+                        new_data.append((r, g, b, 0))
+                    else:
+                        # tom escuro → dourado suave
+                        blend = 0.65
+                        nr = int(r * (1-blend) + 255 * blend)
+                        ng = int(g * (1-blend) + 198 * blend)
+                        nb = int(b * (1-blend) + 80  * blend)
+                        new_data.append((nr, ng, nb, a))
+                img.putdata(new_data)
+                buf = _io.BytesIO()
+                img.save(buf, "PNG")
+                buf.seek(0)
+                logo_x = (PW - LOGO_W) / 2
+                self.image(buf, x=logo_x, y=LOGO_Y, w=LOGO_W)
+            except Exception:
+                logo_x = (PW - LOGO_W) / 2
+                self.image(str(LOGO_PATH), x=logo_x, y=LOGO_Y, w=LOGO_W)
         else:
-            self.set_xy(MX, LOGO_Y)
-            self.set_font("Arial", "B", 28)
+            self.set_xy(MX, LOGO_Y + 4)
+            self.set_font("Arial", "B", 36)
             self.set_text_color(*GOLD)
-            self.cell(CW, 14, "CSM", align="C")
+            self.cell(CW, 18, "CSM", align="C")
 
-        # Título
+        # ── Divisor superior ─────────────────────────────────────────────────
+        DIV1_Y = LOGO_Y - 8
+        self._cover_divider(DIV1_Y, w_frac=0.50)
+
+        # Texto acima do divisor (assinatura discreta)
+        self.set_xy(MX, DIV1_Y - 9)
+        self.set_font("Arial", "", 6.5)
+        self.set_text_color(110, 95, 65)
+        self.cell(CW, 5, "C A M P I N A S   S H O P P I N G   M Ó V E I S", align="C")
+
+        # ── Título principal ──────────────────────────────────────────────────
+        TITLE_Y = LOGO_Y + LOGO_W * 0.55 + 10   # logo height ≈ aspect * width
+
+        # Linha separadora entre logo e título
+        self._cover_divider(TITLE_Y - 6, w_frac=0.45, with_diamond=False)
+
         self.set_xy(MX, TITLE_Y)
-        self.set_font("Arial", "B", 20)
-        self.set_text_color(*INK)
-        self.cell(CW, 10, "Catálogo de Produtos", align="C")
+        self.set_font("Arial", "B", 18)
+        self.set_text_color(*GOLD)
+        self.cell(CW, 10, "CATÁLOGO  DE  PRODUTOS", align="C")
 
-        # Subtítulo
-        self.set_xy(MX, SUBS_Y)
-        self.set_font("Arial", "I", 10)
-        self.set_text_color(*MUTED)
-        self.cell(CW, 6, subtitle, align="C")
+        # Subtítulo (nome da seleção)
+        self.set_xy(MX, TITLE_Y + 12)
+        self.set_font("Arial", "I", 9)
+        self.set_text_color(165, 138, 90)
+        self.cell(CW, 5, subtitle, align="C")
 
-        # Info: quantidade + data
-        self.set_xy(MX, INFO_Y)
-        self.set_font("Arial", "", 8.5)
-        self.set_text_color(*FAINT)
+        # ── Divisor inferior + info ───────────────────────────────────────────
+        DIV2_Y = TITLE_Y + 22
+        self._cover_divider(DIV2_Y, w_frac=0.38)
+
         n = f"{total} produto{'s' if total != 1 else ''}"
-        data = datetime.now().strftime("%d/%m/%Y")
-        self.cell(CW, 5, f"{n}  ·  {data}", align="C")
+        data = datetime.now().strftime("%d · %m · %Y")
+        self.set_xy(MX, DIV2_Y + 5)
+        self.set_font("Arial", "", 7.5)
+        self.set_text_color(90, 78, 55)
+        self.cell(CW, 5, f"{n}    ·    {data}", align="C")
 
-        # Rodapé
-        self.set_xy(MX, PH - MY - 6)
-        self.set_font("Arial", "", 7)
-        self.set_text_color(*FAINT)
-        self.cell(CW, 5, "Uso exclusivo interno — Campinas Shopping Móveis", align="C")
+        # ── Rodapé escuro ─────────────────────────────────────────────────────
+        self.set_draw_color(60, 52, 38)
+        self.set_line_width(0.2)
+        self.line(MX + 20, PH - 18, PW - MX - 20, PH - 18)
+        self.set_xy(MX, PH - 16)
+        self.set_font("Arial", "", 6)
+        self.set_text_color(70, 60, 42)
+        self.cell(CW, 4, "USO EXCLUSIVO INTERNO", align="C")
 
     # ── cabeçalho padrão de página de produto ────────────────────────────────
 
@@ -484,8 +632,11 @@ class CatalogPDF(FPDF):
         return y + 7.5
 
     def _draw_dims_table_full(self, dims: list[dict], y: float) -> float:
+        has_circular = any(r.get("circular") for r in dims)
         col_w = CW / 4
-        headers = ["TAMANHO", "LARGURA", "PROFUNDIDADE", "ALTURA"]
+        h2 = "DIÂM." if has_circular else "LARGURA"
+        h3 = "" if has_circular else "PROFUNDIDADE"
+        headers = ["TAMANHO", h2, h3, "ALTURA"]
 
         self.set_xy(MX, y)
         self.set_font("Arial", "B", 7)
@@ -497,7 +648,6 @@ class CatalogPDF(FPDF):
             self.cell(col_w, 5.5, h, border=1, align="C", fill=True)
         y += 5.5
 
-        self.set_font("Arial", "", 8)
         for i, row in enumerate(dims):
             fill = i % 2 == 0
             self.set_fill_color(248, 243, 235) if fill else self.set_fill_color(*WHITE)
