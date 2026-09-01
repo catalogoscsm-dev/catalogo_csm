@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSM Decor — Produto</title>
+<link rel="icon" href="webapp/static/favicon.ico" type="image/x-icon">
+<style>
+:root {
+  --orange:#FF7D00; --orange-light:#ff9833; --orange-dim:rgba(255,125,0,0.12);
+  --bg:#f4f4f4; --surface:#fff; --surface2:#f0f0f0; --border:#e0e0e0;
+  --text:#1a1a1a; --text2:#555; --text3:#888; --shadow:rgba(0,0,0,0.08);
+}
+[data-theme=dark]{
+  --bg:#141414; --surface:#1e1e1e; --surface2:#252525; --border:#2e2e2e;
+  --text:#f0f0f0; --text2:#aaa; --text3:#666; --shadow:rgba(0,0,0,0.4);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* HEADER */
+.header{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:0 2px 12px var(--shadow)}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;gap:12px}
+.btn-back{display:flex;align-items:center;gap:6px;background:none;border:1.5px solid var(--border);border-radius:20px;padding:7px 14px;color:var(--text2);font-size:.85rem;cursor:pointer;text-decoration:none;transition:border-color .2s,color .2s}
+.btn-back:hover{border-color:var(--orange);color:var(--orange)}
+.logo{height:36px;object-fit:contain;margin-right:4px}
+.logo-text{font-size:1.05rem;font-weight:700;color:var(--orange)}
+.spacer{flex:1}
+.btn-icon{background:none;border:none;cursor:pointer;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text2);transition:background .2s}
+.btn-icon:hover{background:var(--surface2)}
+
+/* CONTENT */
+.content{max-width:1200px;margin:0 auto;padding:32px 24px}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1fr 420px;gap:40px;align-items:start}
+.gallery{display:flex;flex-direction:column;gap:12px}
+.main-img-wrap{border-radius:16px;overflow:hidden;border:1.5px solid var(--border);aspect-ratio:1;background:var(--surface2);position:relative}
+.main-img-wrap img{width:100%;height:100%;object-fit:cover;cursor:zoom-in}
+.thumbs{display:flex;gap:8px}
+.thumb{width:68px;height:68px;border-radius:8px;overflow:hidden;border:2px solid transparent;cursor:pointer;background:var(--surface2);flex-shrink:0;transition:border-color .2s}
+.thumb:hover,.thumb.active{border-color:var(--orange)}
+.thumb img{width:100%;height:100%;object-fit:cover}
+
+/* DETAILS */
+.details{}
+.cat-badge{display:inline-block;background:var(--orange-dim);color:var(--orange);border-radius:20px;padding:4px 12px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px}
+.product-name{font-size:2rem;font-weight:800;line-height:1.1;margin-bottom:8px}
+.supplier{color:var(--text3);font-size:.85rem;margin-bottom:24px;display:flex;align-items:center;gap:6px}
+.supplier svg{color:var(--orange)}
+
+.divider{height:1px;background:var(--border);margin:20px 0}
+
+/* TABLE */
+.section-title{font-size:.75rem;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+
+.dims-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.dims-table th{background:var(--orange-dim);color:var(--orange);font-size:.72rem;text-transform:uppercase;letter-spacing:.6px;padding:7px 10px;text-align:left}
+.dims-table td{padding:7px 10px;border-bottom:1px solid var(--border);color:var(--text)}
+.dims-table tr:last-child td{border-bottom:none}
+.dims-table tr:hover td{background:var(--surface2)}
+
+/* CORES */
+.cores-list{display:flex;flex-wrap:wrap;gap:8px}
+.cor-tag{display:flex;align-items:center;gap:7px;background:var(--surface2);border-radius:20px;padding:5px 12px;font-size:.82rem;color:var(--text2)}
+.cor-dot{width:12px;height:12px;border-radius:50%;background:var(--border)}
+
+/* ACTIONS */
+.actions{margin-top:28px;display:flex;gap:10px;flex-wrap:wrap}
+.btn-primary{background:var(--orange);color:#fff;border:none;padding:12px 24px;border-radius:24px;font-size:.9rem;font-weight:700;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:8px}
+.btn-primary:hover{background:var(--orange-light)}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1.5px solid var(--border);padding:11px 20px;border-radius:24px;font-size:.88rem;font-weight:600;cursor:pointer;transition:border-color .2s}
+.btn-secondary:hover{border-color:var(--orange)}
+.btn-primary.active{background:#333}
+[data-theme=dark] .btn-primary.active{background:#555}
+
+/* LIGHTBOX */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:500;display:none;align-items:center;justify-content:center;cursor:zoom-out}
+.lightbox.show{display:flex}
+.lightbox img{max-width:95vw;max-height:95vh;object-fit:contain;border-radius:8px}
+.lightbox-close{position:fixed;top:20px;right:24px;color:#fff;font-size:2rem;cursor:pointer;line-height:1;opacity:.8}
+.lightbox-close:hover{opacity:1}
+
+/* LOADING / ERROR */
+.state{text-align:center;padding:80px;color:var(--text3);font-size:.95rem}
+
+@media(max-width:860px){
+  .hero{grid-template-columns:1fr}
+  .details{order:-1}
+  .product-name{font-size:1.5rem}
+}
+@media(max-width:600px){
+  .content{padding:20px 12px}
+  .product-name{font-size:1.3rem}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="btn-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Catálogo
+    </a>
+    <img src="webapp/static/logo.png" class="logo" alt="CSM Decor" onerror="this.style.display='none'">
+    <span class="logo-text">CSM Decor</span>
+    <div class="spacer"></div>
+    <button class="btn-icon" id="btn-theme" title="Alternar tema">
+      <svg id="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg id="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="content" id="content">
+  <div class="state">A carregar produto…</div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close" onclick="closeLightbox()">×</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const LS_KEY   = 'csm_selected_ids';
+const LS_THEME = 'csm_theme';
+let product = null, activeThumb = 0;
+
+// ── THEME ────────────────────────────────────────────────────────────────────
+function initTheme() {
+  const t = localStorage.getItem(LS_THEME) || 'light';
+  setTheme(t);
+}
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem(LS_THEME, t);
+  document.getElementById('icon-sun').style.display  = t==='dark'  ? 'block' : 'none';
+  document.getElementById('icon-moon').style.display = t==='light' ? 'block' : 'none';
+}
+document.getElementById('btn-theme').onclick = () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  setTheme(cur === 'dark' ? 'light' : 'dark');
+};
+
+// ── STORAGE ──────────────────────────────────────────────────────────────────
+function storedSet()      { try { return new Set(JSON.parse(localStorage.getItem(LS_KEY)||'[]').map(Number)); } catch { return new Set(); } }
+function saveSet(s)       { localStorage.setItem(LS_KEY, JSON.stringify([...s])); }
+
+function toggleSelect() {
+  const s = storedSet();
+  const id = product.id;
+  const btn = document.getElementById('btn-sel');
+  if (s.has(id)) {
+    s.delete(id);
+    btn.textContent = '+ Selecionar para PDF';
+    btn.classList.remove('active');
+  } else {
+    s.add(id);
+    btn.innerHTML = '✓ Selecionado';
+    btn.classList.add('active');
+  }
+  saveSet(s);
+}
+
+// ── LOAD ────────────────────────────────────────────────────────────────────
+function getBase() {
+  const p = location.pathname;
+  return p.endsWith('/') ? p : p.replace(/\/[^/]*$/, '/');
+}
+
+async function loadProduct() {
+  const params = new URLSearchParams(location.search);
+  const id = parseInt(params.get('id'));
+  if (!id) { showError('Produto não encontrado.'); return; }
+
+  const base = getBase();
+  const r    = await fetch(base + 'products.json');
+  const d    = await r.json();
+  product    = d.produtos.find(p => p.id === id);
+
+  if (!product) { showError('Produto não encontrado.'); return; }
+
+  document.title = `CSM Decor — ${product.nome}`;
+  renderProduct(base);
+}
+
+function imgUrl(base, path) {
+  if (!path) return '';
+  return base + path.replace(/\\/g, '/');
+}
+
+function renderProduct(base) {
+  const p     = product;
+  const imgs  = p.imagens || [];
+  const sel   = storedSet().has(p.id);
+
+  // Gallery HTML
+  const mainImg = imgs[0] ? imgUrl(base, imgs[0]) : '';
+  const thumbs  = imgs.map((img, i) => `
+    <div class="thumb${i===0?' active':''}" onclick="switchImg(${i})" id="thumb-${i}">
+      <img src="${imgUrl(base, img)}" alt="Imagem ${i+1}" loading="lazy">
+    </div>`).join('');
+
+  // Dimensões
+  const dimsHtml = buildDimsTable(p.dimensoes);
+
+  // Cores
+  const coresHtml = (p.cores && p.cores.length)
+    ? `<div class="section-title">Acabamentos / Cores</div>
+       <div class="cores-list">${p.cores.map(c=>`<div class="cor-tag"><div class="cor-dot"></div>${c}</div>`).join('')}</div>`
+    : '';
+
+  document.getElementById('content').innerHTML = `
+    <div class="hero">
+      <div class="gallery">
+        <div class="main-img-wrap">
+          ${mainImg ? `<img id="main-img" src="${mainImg}" alt="${p.nome}" onclick="openLightbox('${mainImg}')">` : `<div id="main-img" style="width:100%;height:100%"></div>`}
+        </div>
+        ${imgs.length > 1 ? `<div class="thumbs">${thumbs}</div>` : ''}
+      </div>
+      <div class="details">
+        <div class="cat-badge">${p.categoria||'Produto'}</div>
+        <h1 class="product-name">${p.nome}</h1>
+        <div class="supplier">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          ${p.fornecedor||'—'}
+        </div>
+
+        <div class="divider"></div>
+
+        ${dimsHtml}
+        ${dimsHtml ? '<div class="divider"></div>' : ''}
+
+        ${coresHtml}
+        ${coresHtml ? '<div class="divider"></div>' : ''}
+
+        <div class="actions">
+          <button class="btn-primary${sel?' active':''}" id="btn-sel" onclick="toggleSelect()">
+            ${sel ? '✓ Selecionado' : '+ Selecionar para PDF'}
+          </button>
+          <button class="btn-secondary" onclick="exportSingle()">Exportar PDF</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function buildDimsTable(raw) {
+  if (!raw) return '';
+  const rows = parseDims(raw);
+  if (!rows.length) return '';
+
+  const hasCirc = rows.some(d=>d.circular);
+  const headers = hasCirc
+    ? ['Tamanho','Diâmetro','—','Altura']
+    : ['Tamanho','Largura','Profundidade','Altura'];
+
+  return `
+    <div class="section-title">Dimensões</div>
+    <table class="dims-table">
+      <thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead>
+      <tbody>${rows.map(d=>{
+        const vals = hasCirc ? [d.l||'—','—',d.a||'—'] : [d.l||'—',d.p||'—',d.a||'—'];
+        return `<tr><td><strong>${d.size}</strong></td>${vals.map(v=>`<td>${v}</td>`).join('')}</tr>`;
+      }).join('')}</tbody>
+    </table>`;
+}
+
+function parseDims(str) {
+  const pat = /^([A-Z][A-Z0-9]*(?:\s+[A-Z][A-Z0-9]*)*)\s*[-–]\s*(.+)/i;
+  return str.split('|').map(s=>s.trim()).filter(Boolean).map(part => {
+    const m = pat.exec(part); if (!m) return null;
+    const size = m[1].trim().toUpperCase();
+    const rest = m[2].trim();
+    const circ = /^[Øø](\S+)\s+x\s+h\.?(\S+)/i.exec(rest);
+    if (circ) return {size, l:`Ø${circ[1]}`, p:'—', a:circ[2], circular:true};
+    const segs = rest.replace(/x\s*h\./gi,'x h.').split(/\s+x\s+/).map(s=>s.replace(/^h\./,'').trim());
+    while(segs.length<3) segs.push('—');
+    return {size, l:segs[0], p:segs[1], a:segs[2], circular:false};
+  }).filter(Boolean);
+}
+
+// ── GALLERY ──────────────────────────────────────────────────────────────────
+function switchImg(i) {
+  const imgs = product.imagens || [];
+  if (!imgs[i]) return;
+  const base = getBase();
+  const url  = imgUrl(base, imgs[i]);
+  const mainEl = document.getElementById('main-img');
+  if (mainEl && mainEl.tagName === 'IMG') {
+    mainEl.src = url;
+    mainEl.onclick = () => openLightbox(url);
+  }
+  document.querySelectorAll('.thumb').forEach((t,j)=>t.classList.toggle('active',j===i));
+  activeThumb = i;
+}
+
+function openLightbox(url) {
+  document.getElementById('lightbox-img').src = url;
+  document.getElementById('lightbox').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('show');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key==='Escape') closeLightbox(); });
+
+// ── PDF SINGLE ────────────────────────────────────────────────────────────────
+async function exportSingle() {
+  if (!product) return;
+  const btn = document.querySelector('.btn-secondary');
+  btn.textContent = 'A gerar…'; btn.disabled = true;
+  try {
+    await generatePDFSingle(product);
+  } finally {
+    btn.textContent = 'Exportar PDF'; btn.disabled = false;
+  }
+}
+
+async function generatePDFSingle(p) {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+  const W = 210, H = 297;
+  const base = getBase();
+
+  // ── CAPA SIMPLIFICADA ──
+  doc.setFillColor(6, 6, 9);
+  doc.rect(0, 0, W, H, 'F');
+
+  for (let i = 18; i >= 0; i--) {
+    const t = i/18;
+    const r = Math.round(6+t*18), g = Math.round(6+t*14), b = Math.round(9+t*20);
+    const rad = (1-t)*Math.max(W,H)*0.9;
+    doc.setFillColor(r,g,b);
+    doc.ellipse(W/2,H/2,rad*(W/H),rad,'F');
+  }
+
+  const GOLD = [255,125,0];
+  doc.setDrawColor(...GOLD); doc.setLineWidth(0.4);
+  doc.rect(9,9,W-18,H-18);
+  doc.setLineWidth(0.15);
+  doc.rect(11.5,11.5,W-23,H-23);
+
+  const midY = H/2 - 22;
+  doc.setLineWidth(0.3);
+  doc.line(30,midY,W/2-6,midY);
+  doc.line(W/2+6,midY,W-30,midY);
+  doc.setFillColor(...GOLD);
+  doc.rect(W/2-4,midY-4,8,8,'F');
+
+  const logoUrl = base + 'webapp/static/logo.png';
+  try {
+    const logoData = await loadImageAsBase64(logoUrl);
+    const logoImg  = await processLogoForPDF(logoData);
+    doc.addImage(logoImg,'PNG',W/2-20,midY-48,40,40);
+  } catch(e){}
+
+  doc.setTextColor(...GOLD);
+  doc.setFontSize(7.5);
+  doc.text('CAMPINAS SHOPPING MÓVEIS', W/2, midY+14, {align:'center',charSpace:2});
+
+  doc.setFontSize(20); doc.setFont('helvetica','bold');
+  doc.text(p.nome.toUpperCase(), W/2, midY+30, {align:'center'});
+  doc.setFontSize(10); doc.setFont('helvetica','normal');
+  doc.setTextColor(165,138,90);
+  doc.text(p.categoria||'', W/2, midY+40, {align:'center'});
+
+  const now = new Date();
+  doc.setFontSize(7.5); doc.setTextColor(90,78,55);
+  doc.text(now.toLocaleDateString('pt-BR',{month:'long',year:'numeric'}), W/2, H-22, {align:'center'});
+
+  // ── PÁGINA AMBIENTE ──
+  doc.addPage();
+  addProductHeader(doc, p, W);
+  const ambImg = p.imagens && p.imagens[0] ? imgUrl(base, p.imagens[0]) : null;
+  if (ambImg) {
+    try {
+      const d = await loadImageAsBase64(ambImg);
+      doc.addImage(d,'JPEG',20,28,W-40,H-60);
+    } catch(e){}
+  }
+  addFooter(doc, 'Foto Principal', 2, W, H);
+
+  // ── PÁGINA SPECS ──
+  doc.addPage();
+  addProductHeader(doc, p, W);
+  const techImg = p.imagens && p.imagens[1] ? imgUrl(base, p.imagens[1]) : null;
+  if (techImg) {
+    try {
+      const d = await loadImageAsBase64(techImg);
+      doc.addImage(d,'JPEG',55,28,W-110,H*0.46);
+    } catch(e){}
+  }
+
+  let y = H*0.46 + 36;
+
+  if (p.dimensoes) {
+    const dims = parseDims(p.dimensoes);
+    if (dims.length) {
+      doc.setFontSize(8); doc.setFont('helvetica','bold');
+      doc.setTextColor(255,125,0);
+      doc.text('DIMENSÕES', 20, y); y += 5;
+      doc.setDrawColor(255,125,0); doc.setLineWidth(0.4);
+      doc.line(20, y, 90, y); y += 6;
+
+      const hasCirc = dims.some(d=>d.circular);
+      const cols = hasCirc ? ['TAMANHO','DIÂM.','—','ALTURA'] : ['TAMANHO','LARGURA','PROFUNDIDADE','ALTURA'];
+      const colW  = (W-40)/4;
+
+      doc.setFillColor(255,245,235);
+      doc.rect(20,y-4,W-40,7,'F');
+      doc.setFontSize(7); doc.setFont('helvetica','bold');
+      doc.setTextColor(120,80,20);
+      cols.forEach((c,ci)=>doc.text(c,20+ci*colW+colW/2,y,{align:'center'}));
+      y += 7;
+
+      doc.setFont('helvetica','normal'); doc.setTextColor(40,40,40);
+      dims.forEach((d,di)=>{
+        if(di%2===0){doc.setFillColor(250,250,250);doc.rect(20,y-4,W-40,7,'F');}
+        doc.setFont('helvetica','bold');
+        doc.text(d.size,20+colW/2,y,{align:'center'});
+        doc.setFont('helvetica','normal');
+        const vals = hasCirc ? [d.l||'—','—',d.a||'—'] : [d.l||'—',d.p||'—',d.a||'—'];
+        vals.forEach((v,vi)=>doc.text(v,20+(vi+1)*colW+colW/2,y,{align:'center'}));
+        doc.setDrawColor(220,220,220); doc.setLineWidth(0.2);
+        doc.line(20,y+3,W-20,y+3);
+        y+=7;
+      });
+      y+=6;
+    }
+  }
+
+  if (p.cores && p.cores.length) {
+    doc.setFontSize(8); doc.setFont('helvetica','bold');
+    doc.setTextColor(255,125,0);
+    doc.text('ACABAMENTOS / CORES', 20, y); y += 5;
+    doc.setDrawColor(255,125,0); doc.setLineWidth(0.4);
+    doc.line(20, y, 90, y); y += 7;
+
+    let cx = 20;
+    p.cores.forEach(cor => {
+      doc.setFillColor(180,180,180);
+      doc.circle(cx+4,y-1,4,'F');
+      doc.setFontSize(7.5); doc.setFont('helvetica','normal');
+      doc.setTextColor(40,40,40);
+      doc.text(cor, cx+11, y+1);
+      cx += 55;
+      if(cx>W-55){cx=20;y+=12;}
+    });
+    y+=12;
+  }
+
+  doc.setFontSize(8); doc.setFont('helvetica','bold');
+  doc.setTextColor(255,125,0);
+  doc.text('FORNECEDOR', 20, y); y+=5;
+  doc.setDrawColor(255,125,0); doc.setLineWidth(0.4);
+  doc.line(20,y,90,y); y+=7;
+  doc.setFont('helvetica','normal'); doc.setTextColor(40,40,40);
+  doc.text(p.fornecedor||'—',20,y);
+
+  addFooter(doc,'Especificações Técnicas',3,W,H);
+
+  const fname = `CSM_${p.nome.replace(/[^a-zA-Z0-9]/g,'_')}.pdf`;
+  doc.save(fname);
+}
+
+function addProductHeader(doc, p, W) {
+  doc.setDrawColor(255,125,0); doc.setLineWidth(0.5);
+  doc.line(20,18,W-20,18);
+  doc.setFontSize(7.5); doc.setFont('helvetica','bold');
+  doc.setTextColor(255,125,0);
+  doc.text((p.categoria||'').toUpperCase(),20,14);
+  doc.setFontSize(16); doc.setFont('helvetica','bold');
+  doc.setTextColor(20,20,20);
+  doc.text(p.nome,20,23);
+  if(window._logoCache){
+    try{doc.addImage(window._logoCache,'PNG',W-38,8,28,14);}catch(e){}
+  }
+}
+
+function addFooter(doc,label,pageN,W,H){
+  doc.setDrawColor(220,220,220); doc.setLineWidth(0.3);
+  doc.line(20,H-18,W-20,H-18);
+  doc.setFontSize(7); doc.setFont('helvetica','normal');
+  doc.setTextColor(160,160,160);
+  doc.text('CSM Decor — Uso Exclusivo Interno  ·  '+label,20,H-13);
+  doc.text('Página '+pageN,W-20,H-13,{align:'right'});
+}
+
+async function loadImageAsBase64(url){
+  return new Promise((resolve,reject)=>{
+    const img=new Image(); img.crossOrigin='anonymous';
+    img.onload=()=>{
+      const c=document.createElement('canvas');
+      c.width=img.naturalWidth; c.height=img.naturalHeight;
+      c.getContext('2d').drawImage(img,0,0);
+      resolve(c.toDataURL('image/jpeg',0.85));
+    };
+    img.onerror=reject;
+    img.src=url+'?_='+Date.now();
+  });
+}
+
+async function processLogoForPDF(base64){
+  return new Promise(resolve=>{
+    const img=new Image();
+    img.onload=()=>{
+      const c=document.createElement('canvas');
+      c.width=img.width; c.height=img.height;
+      const ctx=c.getContext('2d');
+      ctx.drawImage(img,0,0);
+      const d=ctx.getImageData(0,0,c.width,c.height);
+      for(let i=0;i<d.data.length;i+=4){
+        const r=d.data[i],g=d.data[i+1],b=d.data[i+2];
+        if(r>200&&g>200&&b>200){d.data[i+3]=0;}
+        else{d.data[i]=255;d.data[i+1]=125;d.data[i+2]=0;}
+      }
+      ctx.putImageData(d,0,0);
+      const result=c.toDataURL('image/png');
+      window._logoCache=result;
+      resolve(result);
+    };
+    img.src=base64;
+  });
+}
+
+function showError(msg) {
+  document.getElementById('content').innerHTML = `<div class="state">${msg} <a href="index.html">← Voltar ao catálogo</a></div>`;
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+initTheme();
+loadProduct();
+</script>
+</body>
+</html>

@@ -1,0 +1,789 @@
+{
+  "produtos": [
+    {
+      "id": 280,
+      "nome": "Arizona",
+      "categoria": "Cadeira",
+      "dimensoes": "U - 60cm x 50cm x h.45cm / 72cm",
+      "cores": [],
+      "imagens": [
+        "products/ABV 2025/pag066_amb.jpg",
+        "products/ABV 2025/pag066_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 66
+    },
+    {
+      "id": 282,
+      "nome": "Arizona",
+      "categoria": "Cadeira",
+      "dimensoes": "P - 60cm x 50cm x h.65cm / 92cm | G - 60cm x 50cm x h.75cm / 102cm",
+      "cores": [],
+      "imagens": [
+        "products/ABV 2025/pag070_amb.jpg",
+        "products/ABV 2025/pag070_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 70
+    },
+    {
+      "id": 278,
+      "nome": "Ferrara",
+      "categoria": "Cadeira",
+      "dimensoes": "P - Ø90cm x h.75cm | M - Ø120cm x h.75cm | G - Ø140cm x h.75cm",
+      "cores": [
+        "Champagne",
+        "Fog"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag062_amb.jpg",
+        "products/ABV 2025/pag062_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 62
+    },
+    {
+      "id": 279,
+      "nome": "Sierra",
+      "categoria": "Cadeira",
+      "dimensoes": "U - 50cm x 50cm x h.45cm / 72cm",
+      "cores": [],
+      "imagens": [
+        "products/ABV 2025/pag064_amb.jpg",
+        "products/ABV 2025/pag064_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 64
+    },
+    {
+      "id": 281,
+      "nome": "Sierra",
+      "categoria": "Cadeira",
+      "dimensoes": "P - 50cm x 50cm x h.65cm / 92cm | G - 50cm x 50cm x h.75cm / 102cm",
+      "cores": [],
+      "imagens": [
+        "products/ABV 2025/pag068_amb.jpg",
+        "products/ABV 2025/pag068_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 68
+    },
+    {
+      "id": 284,
+      "nome": "Sierra",
+      "categoria": "Cadeira",
+      "dimensoes": "U - 65cm x 65cm x h.45cm / 76cm",
+      "cores": [],
+      "imagens": [
+        "products/ABV 2025/pag074_amb.jpg",
+        "products/ABV 2025/pag074_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 74
+    },
+    {
+      "id": 283,
+      "nome": "Slim",
+      "categoria": "Cadeira",
+      "dimensoes": "P - 45cm x 40cm x h.65cm / 73cm | G - 45cm x 40cm x h.75cm / 83cm",
+      "cores": [],
+      "imagens": [
+        "products/ABV 2025/pag072_amb.jpg",
+        "products/ABV 2025/pag072_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 72
+    },
+    {
+      "id": 253,
+      "nome": "Acapulco",
+      "categoria": "Carrinho",
+      "dimensoes": "P - 100cm x 40cm x h.80cm / 87cm | G - 125cm x 50cm x h.100cm / 110cm",
+      "cores": [
+        "Champagne",
+        "Jequitibánatural"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag012_amb.jpg",
+        "products/ABV 2025/pag012_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 12
+    },
+    {
+      "id": 254,
+      "nome": "Alabama",
+      "categoria": "Carrinho",
+      "dimensoes": "P - 100cm x 40cm x h.80cm | M - 120cm x 40cm x h.80cm | G - 140cm x 40cm x h.80cm | S - 180cm x 40cm x h.60cm",
+      "cores": [
+        "Champagne",
+        "Lacagianduia"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag014_amb.jpg",
+        "products/ABV 2025/pag014_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 14
+    },
+    {
+      "id": 256,
+      "nome": "Coliseo",
+      "categoria": "Carrinho",
+      "dimensoes": "P - 110cm x 40cm x h.80cm | M - 130cm x 40cm x h.80cm | G - 150cm x 40cm x h.80cm | S - 180cm x 40cm x h.60cm",
+      "cores": [
+        "Champagne",
+        "Fog",
+        "Bronze"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag018_amb.jpg",
+        "products/ABV 2025/pag018_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 18
+    },
+    {
+      "id": 251,
+      "nome": "Duna",
+      "categoria": "Carrinho",
+      "dimensoes": "P - 115cm x 45cm x h.70cm | G - 155cm x 45cm x h.70cm",
+      "cores": [
+        "Dourado",
+        "Fog"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag008_amb.jpg",
+        "products/ABV 2025/pag008_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 8
+    },
+    {
+      "id": 252,
+      "nome": "Mônaco",
+      "categoria": "Carrinho",
+      "dimensoes": "P - 100cm x 48,5cm x h.75cm | G - 140cm x 48,5cm x h.75cm",
+      "cores": [
+        "Dourado",
+        "Lourofreijó"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag010_amb.jpg",
+        "products/ABV 2025/pag010_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 10
+    },
+    {
+      "id": 255,
+      "nome": "Prada",
+      "categoria": "Carrinho",
+      "dimensoes": "P - 100cm x 40cm x h.80cm | M - 120cm x 40cm x h.80cm | G - 140cm x 40cm x h.80cm",
+      "cores": [
+        "Champagne",
+        "Jequitibácastanho"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag016_amb.jpg",
+        "products/ABV 2025/pag016_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 16
+    },
+    {
+      "id": 250,
+      "nome": "Produto ABV pag.6",
+      "categoria": "Carrinho",
+      "dimensoes": "",
+      "cores": [],
+      "imagens": [
+        "products/ABV 2025/pag006_amb.jpg",
+        "products/ABV 2025/pag006_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 6
+    },
+    {
+      "id": 298,
+      "nome": "Bari",
+      "categoria": "Estante",
+      "dimensoes": "MD1 - 110cm x 40cm x h.200cm | MD2 - 110cm x 40cm x h.200cm",
+      "cores": [
+        "Preto",
+        "Savana"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag102_amb.jpg",
+        "products/ABV 2025/pag102_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 102
+    },
+    {
+      "id": 300,
+      "nome": "Doppo",
+      "categoria": "Estante",
+      "dimensoes": "U - 100cm x 38cm x h.170cm",
+      "cores": [
+        "Champagne",
+        "Prata"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag106_amb.jpg",
+        "products/ABV 2025/pag106_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 106
+    },
+    {
+      "id": 297,
+      "nome": "Firenze",
+      "categoria": "Estante",
+      "dimensoes": "U - Ø55cm x h.175cm",
+      "cores": [
+        "Champagne",
+        "Bege"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag100_amb.jpg",
+        "products/ABV 2025/pag100_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 100
+    },
+    {
+      "id": 299,
+      "nome": "Slim",
+      "categoria": "Estante",
+      "dimensoes": "U - 50cm x 50cm x h.160cm",
+      "cores": [
+        "Preto",
+        "Jequitibánatural"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag104_amb.jpg",
+        "products/ABV 2025/pag104_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 104
+    },
+    {
+      "id": 295,
+      "nome": "Calábria",
+      "categoria": "Luminária",
+      "dimensoes": "U - Ø65cm x h.165cm",
+      "cores": [
+        "Champagne",
+        "Bege"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag096_amb.jpg",
+        "products/ABV 2025/pag096_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 96
+    },
+    {
+      "id": 296,
+      "nome": "Duna",
+      "categoria": "Luminária",
+      "dimensoes": "U - Ø45cm x h.180cm",
+      "cores": [
+        "Champagne",
+        "Bege"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag098_amb.jpg",
+        "products/ABV 2025/pag098_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 98
+    },
+    {
+      "id": 293,
+      "nome": "Slim",
+      "categoria": "Luminária",
+      "dimensoes": "P - 60cm x 35cm x h.45cm | M - 90cm x 35cm x h.45cm | G - 120cm x 35cm x h.45cm",
+      "cores": [
+        "Preto",
+        "Jequitibácastanho"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag092_amb.jpg",
+        "products/ABV 2025/pag092_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 92
+    },
+    {
+      "id": 294,
+      "nome": "Soleil",
+      "categoria": "Luminária",
+      "dimensoes": "U - Ø65cm x h.165cm",
+      "cores": [
+        "Bronze",
+        "Bege"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag094_amb.jpg",
+        "products/ABV 2025/pag094_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 94
+    },
+    {
+      "id": 276,
+      "nome": "Bella",
+      "categoria": "Mesa",
+      "dimensoes": "OVALP - 140cm x 60cm x h.30cm | OVALG - 180cm x 80cm x h.30cm",
+      "cores": [
+        "Champagne",
+        "Jequitibánatural"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag058_amb.jpg",
+        "products/ABV 2025/pag058_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 58
+    },
+    {
+      "id": 269,
+      "nome": "Doppo",
+      "categoria": "Mesa",
+      "dimensoes": "P - 140cm x 80cm x h.30cm | G - 160cm x 90cm x h.30cm | GG - 180cm x 100cm x 30cm",
+      "cores": [
+        "Bronze",
+        "Fog"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag044_amb.jpg",
+        "products/ABV 2025/pag044_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 44
+    },
+    {
+      "id": 277,
+      "nome": "Doppo",
+      "categoria": "Mesa",
+      "dimensoes": "P - 180cm x 120cm x h.75cm | M - 220cm x 140cm x h.75cm | G - 240cm x 160cm x h.75cm",
+      "cores": [
+        "Offwhite",
+        "Carvalhochampagne"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag060_amb.jpg",
+        "products/ABV 2025/pag060_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 60
+    },
+    {
+      "id": 270,
+      "nome": "Duna",
+      "categoria": "Mesa",
+      "dimensoes": "P - 140cm x 60cm x h.35cm | G - 160cm x 70cm x h.35cm",
+      "cores": [
+        "Offwhite",
+        "Savana"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag046_amb.jpg",
+        "products/ABV 2025/pag046_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 46
+    },
+    {
+      "id": 273,
+      "nome": "Mônaco",
+      "categoria": "Mesa",
+      "dimensoes": "P - 100cm x 50cm x h.35cm | G - 120cm x 60cm x h.35cm",
+      "cores": [
+        "Dourado",
+        "Fog"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag052_amb.jpg",
+        "products/ABV 2025/pag052_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 52
+    },
+    {
+      "id": 275,
+      "nome": "Noma",
+      "categoria": "Mesa",
+      "dimensoes": "P - Ø50cm x h.30cm | M - Ø60cm x h.35cm | G - Ø70cm x h.40cm | GG - Ø80cm x h.35cm | XGG - Ø100cm x h.35cm",
+      "cores": [
+        "Champagne",
+        "Savana",
+        "Gianduia",
+        "Esp.Bronze"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag056_amb.jpg",
+        "products/ABV 2025/pag056_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 56
+    },
+    {
+      "id": 272,
+      "nome": "Ravena",
+      "categoria": "Mesa",
+      "dimensoes": "",
+      "cores": [
+        "Champagne",
+        "Kashmir",
+        "Fog"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag050_amb.jpg",
+        "products/ABV 2025/pag050_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 50
+    },
+    {
+      "id": 268,
+      "nome": "Slim",
+      "categoria": "Mesa",
+      "dimensoes": "P - 50cm x 50cm x h.50cm | G - 65cm x 50cm x h.50cm",
+      "cores": [
+        "Grafite",
+        "Silício"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag042_amb.jpg",
+        "products/ABV 2025/pag042_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 42
+    },
+    {
+      "id": 271,
+      "nome": "Soleil",
+      "categoria": "Mesa",
+      "dimensoes": "OVALP - 120cm x 60cm x h.30cm | OVALG - 160cm x 80cm x h.30cm",
+      "cores": [
+        "Champagne",
+        "Arenito",
+        "Lacagianduia"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag048_amb.jpg",
+        "products/ABV 2025/pag048_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 48
+    },
+    {
+      "id": 274,
+      "nome": "Ônix",
+      "categoria": "Mesa",
+      "dimensoes": "MD1 - 60cm x 60cm x h.30cm | MD2 - 60cm x 60cm x h.30cm",
+      "cores": [
+        "Offwhite",
+        "Offwhite",
+        "Vidroincolor"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag054_amb.jpg",
+        "products/ABV 2025/pag054_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 54
+    },
+    {
+      "id": 264,
+      "nome": "Aqua",
+      "categoria": "Mesa Lateral",
+      "dimensoes": "U - 50cm x 40cm x h.65cm",
+      "cores": [
+        "Champagne",
+        "Lacagianduia"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag034_amb.jpg",
+        "products/ABV 2025/pag034_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 34
+    },
+    {
+      "id": 262,
+      "nome": "Bella",
+      "categoria": "Mesa Lateral",
+      "dimensoes": "M - Ø50cm x h.50cm | G - Ø60cm x h.60cm",
+      "cores": [
+        "Dourado",
+        "Savana"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag030_amb.jpg",
+        "products/ABV 2025/pag030_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 30
+    },
+    {
+      "id": 267,
+      "nome": "Bella",
+      "categoria": "Mesa Lateral",
+      "dimensoes": "P - 60cm x 45cm x h.60cm | G - 75cm x 50cm x h.60cm",
+      "cores": [
+        "Champagne",
+        "Kashmir"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag040_amb.jpg",
+        "products/ABV 2025/pag040_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 40
+    },
+    {
+      "id": 258,
+      "nome": "Duna",
+      "categoria": "Mesa Lateral",
+      "dimensoes": "U - 50cm x 50cm x h.55cm",
+      "cores": [
+        "Champagne",
+        "Savana"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag022_amb.jpg",
+        "products/ABV 2025/pag022_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 22
+    },
+    {
+      "id": 263,
+      "nome": "Duo",
+      "categoria": "Mesa Lateral",
+      "dimensoes": "P - 35cm x 35cm x h.55cm | M - 35cm x 35cm x h.60cm | G - 35cm x 35cm x h.65cm",
+      "cores": [
+        "Champagne",
+        "Gianduia"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag032_amb.jpg",
+        "products/ABV 2025/pag032_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 32
+    },
+    {
+      "id": 257,
+      "nome": "Génova",
+      "categoria": "Mesa Lateral",
+      "dimensoes": "P - 120cm x 40cm x h.80cm | M - 140cm x 40cm x h.80cm | G - 160cm x 40cm x h.80cm | S - 180cm x 40cm x h.60cm",
+      "cores": [
+        "Preto",
+        "Lacapreto"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag020_amb.jpg",
+        "products/ABV 2025/pag020_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 20
+    },
+    {
+      "id": 259,
+      "nome": "Mônaco",
+      "categoria": "Mesa Lateral",
+      "dimensoes": "U - 80cm x 30cm x h.60cm",
+      "cores": [
+        "Champagne",
+        "Offwhite"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag024_amb.jpg",
+        "products/ABV 2025/pag024_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 24
+    },
+    {
+      "id": 265,
+      "nome": "Padova",
+      "categoria": "Mesa Lateral",
+      "dimensoes": "M - 45cm x 45cm x h.60cm | G - 45cm x 45cm x h.70cm",
+      "cores": [
+        "Dourado",
+        "Fog"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag036_amb.jpg",
+        "products/ABV 2025/pag036_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 36
+    },
+    {
+      "id": 260,
+      "nome": "Ravena",
+      "categoria": "Mesa Lateral",
+      "dimensoes": "P - Ø45cm x h.50cm | G - Ø55cm x h.55cm",
+      "cores": [
+        "Champagne",
+        "Fog"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag026_amb.jpg",
+        "products/ABV 2025/pag026_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 26
+    },
+    {
+      "id": 261,
+      "nome": "Soleil",
+      "categoria": "Mesa Lateral",
+      "dimensoes": "P - Ø50cm x h.50cm | G - 50cm x 50cm x h.55cm",
+      "cores": [
+        "Champagne",
+        "Arenito"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag028_amb.jpg",
+        "products/ABV 2025/pag028_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 28
+    },
+    {
+      "id": 266,
+      "nome": "Veneza",
+      "categoria": "Mesa Lateral",
+      "dimensoes": "P - 60cm x 45cm x h.60cm | G - 75cm x 50cm x h.60cm",
+      "cores": [
+        "Champagne",
+        "Offwhite",
+        "Bronze"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag038_amb.jpg",
+        "products/ABV 2025/pag038_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 38
+    },
+    {
+      "id": 285,
+      "nome": "Arizona",
+      "categoria": "Puf",
+      "dimensoes": "U - 75cm x 65cm x h.45cm / 72cm",
+      "cores": [],
+      "imagens": [
+        "products/ABV 2025/pag076_amb.jpg",
+        "products/ABV 2025/pag076_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 76
+    },
+    {
+      "id": 290,
+      "nome": "Duna",
+      "categoria": "Puf",
+      "dimensoes": "U - 140cm x 45cm x h.43cm",
+      "cores": [],
+      "imagens": [
+        "products/ABV 2025/pag086_amb.jpg",
+        "products/ABV 2025/pag086_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 86
+    },
+    {
+      "id": 286,
+      "nome": "Duo",
+      "categoria": "Puf",
+      "dimensoes": "P - Ø50cm x h.45cm | M - Ø60cm x h.45cm | G - Ø70cm x h.28cm",
+      "cores": [],
+      "imagens": [
+        "products/ABV 2025/pag078_amb.jpg",
+        "products/ABV 2025/pag078_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 78
+    },
+    {
+      "id": 292,
+      "nome": "Mônaco",
+      "categoria": "Puf",
+      "dimensoes": "U - 100cm x 35cm x h.42cm",
+      "cores": [
+        "Dourado",
+        "Couríssimocaramelo",
+        "Lourofreijó"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag090_amb.jpg",
+        "products/ABV 2025/pag090_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 90
+    },
+    {
+      "id": 289,
+      "nome": "Ravena",
+      "categoria": "Puf",
+      "dimensoes": "P - Ø40cm x h.45cm | M - Ø50cm x h.45cm | G - Ø60cm x h.28cm | GG - Ø70cm x h.28cm",
+      "cores": [],
+      "imagens": [
+        "products/ABV 2025/pag084_amb.jpg",
+        "products/ABV 2025/pag084_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 84
+    },
+    {
+      "id": 287,
+      "nome": "Sierra",
+      "categoria": "Puf",
+      "dimensoes": "P - Ø40cm x h.45cm | M - Ø50cm x h.45cm | G - Ø60cm x h.28cm | GG - Ø70cm x h.28cm",
+      "cores": [],
+      "imagens": [
+        "products/ABV 2025/pag080_amb.jpg",
+        "products/ABV 2025/pag080_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 80
+    },
+    {
+      "id": 288,
+      "nome": "Soleil",
+      "categoria": "Puf",
+      "dimensoes": "P - Ø40cm x h.45cm | M - Ø50cm x h.45cm | G - Ø60cm x h.28cm | GG - Ø70cm x h.28cm",
+      "cores": [],
+      "imagens": [
+        "products/ABV 2025/pag082_amb.jpg",
+        "products/ABV 2025/pag082_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 82
+    },
+    {
+      "id": 291,
+      "nome": "Veneza",
+      "categoria": "Puf",
+      "dimensoes": "P - 140cm x 50cm x h.43cm | G - 160cm x 50cm x h.43cm",
+      "cores": [
+        "Champagne",
+        "Couríssimopalha"
+      ],
+      "imagens": [
+        "products/ABV 2025/pag088_amb.jpg",
+        "products/ABV 2025/pag088_tech.jpg"
+      ],
+      "fornecedor": "ABV Design de Móveis",
+      "pag": 88
+    }
+  ]
+}
