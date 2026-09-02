@@ -28,6 +28,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .spacer{flex:1}
 .btn-icon{background:none;border:none;cursor:pointer;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text2);transition:background .2s}
 .btn-icon:hover{background:var(--surface2)}
+.nav-group{display:flex;align-items:center;gap:4px}
+.btn-nav{display:flex;align-items:center;justify-content:center;background:none;border:1.5px solid var(--border);border-radius:50%;width:34px;height:34px;cursor:pointer;color:var(--text2);transition:border-color .2s,color .2s}
+.btn-nav:hover:not(:disabled){border-color:var(--orange);color:var(--orange)}
+.btn-nav:disabled{opacity:.3;cursor:default}
+.nav-count{font-size:.75rem;color:var(--text3);min-width:36px;text-align:center;white-space:nowrap}
 
 /* CONTENT */
 .content{max-width:1200px;margin:0 auto;padding:32px 24px}
@@ -106,6 +111,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <img src="webapp/static/logo.png" class="logo" alt="CSM Decor" onerror="this.style.display='none'">
     <span class="logo-text">CSM Decor</span>
     <div class="spacer"></div>
+    <div class="nav-group">
+      <button class="btn-nav" id="btn-prev" title="Produto anterior" onclick="navigate(-1)" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <span class="nav-count" id="nav-count">—</span>
+      <button class="btn-nav" id="btn-next" title="Próximo produto" onclick="navigate(1)" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
     <button class="btn-icon" id="btn-theme" title="Alternar tema">
       <svg id="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
       <svg id="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -126,7 +140,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 <script>
 const LS_KEY   = 'csm_selected_ids';
 const LS_THEME = 'csm_theme';
-let product = null, activeThumb = 0;
+let product = null, allProducts = [], currentIndex = -1, activeThumb = 0;
 
 // ── THEME ────────────────────────────────────────────────────────────────────
 function initTheme() {
@@ -178,11 +192,14 @@ async function loadProduct() {
   const base = getBase();
   const r    = await fetch(base + 'products.json');
   const d    = await r.json();
-  product    = d.produtos.find(p => p.id === id);
+  allProducts   = d.produtos;
+  currentIndex  = allProducts.findIndex(p => p.id === id);
+  product       = allProducts[currentIndex];
 
   if (!product) { showError('Produto não encontrado.'); return; }
 
   document.title = `CSM Decor — ${product.nome}`;
+  updateNavButtons();
   renderProduct(base);
 }
 
@@ -283,7 +300,21 @@ function parseDims(str) {
   }).filter(Boolean);
 }
 
-// ── GALLERY ──────────────────────────────────────────────────────────────────
+// ── NAVIGATION ───────────────────────────────────────────────────────────────
+function updateNavButtons() {
+  const total = allProducts.length;
+  document.getElementById('nav-count').textContent = total ? `${currentIndex + 1} / ${total}` : '—';
+  document.getElementById('btn-prev').disabled = currentIndex <= 0;
+  document.getElementById('btn-next').disabled = currentIndex < 0 || currentIndex >= total - 1;
+}
+
+function navigate(dir) {
+  const target = allProducts[currentIndex + dir];
+  if (!target) return;
+  location.href = `produto.html?id=${target.id}`;
+}
+
+// ── GALLERY ───────────────────────────────────────────────────────────────────
 function switchImg(i) {
   const imgs = product.imagens || [];
   if (!imgs[i]) return;
@@ -307,7 +338,12 @@ function closeLightbox() {
   document.getElementById('lightbox').classList.remove('show');
   document.body.style.overflow = '';
 }
-document.addEventListener('keydown', e => { if (e.key==='Escape') closeLightbox(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeLightbox(); return; }
+  if (document.getElementById('lightbox').classList.contains('show')) return;
+  if (e.key === 'ArrowLeft')  navigate(-1);
+  if (e.key === 'ArrowRight') navigate(1);
+});
 
 // ── PDF SINGLE ────────────────────────────────────────────────────────────────
 async function exportSingle() {
