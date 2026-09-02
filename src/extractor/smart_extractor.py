@@ -12,9 +12,9 @@ Extraia todas as informações do produto visíveis na página.
 Responda SOMENTE com JSON válido, sem markdown:
 {
   "nome": "nome do produto em maiúsculas",
-  "categoria": "categoria (ex: Sofá, Mesa de Centro, Poltrona...)",
-  "descricao": "descrição resumida em 1-2 frases valorizando o design",
-  "dimensoes": "todas as dimensões/variações separadas por |",
+  "categoria": "categoria exata (ex: Sofá, Poltrona, Pufe, Mesa de Centro, Mesa Lateral, Mesa de Jantar, Cadeira, Aparador, Rack, Estante, Cama, Criado-mudo, Cômoda, Espelho, Luminária, Tapete, Outros)",
+  "descricao": "descrição resumida em 1-2 frases valorizando o design. String vazia se não houver texto descritivo.",
+  "dimensoes": "copie EXATAMENTE as dimensões como aparecem na imagem, separadas por ' | '. Ex retangular: 'P - 115cm x 45cm x h.70cm | G - 155cm x 45cm x h.70cm'. Ex circular: 'P - Ø40cm x h.45cm | M - Ø50cm x h.45cm'. Preserve o símbolo Ø.",
   "materiais": ["material1", "material2"],
   "cores_disponiveis": ["cor1", "cor2"]
 }"""
@@ -25,7 +25,7 @@ Identifique o produto principal em destaque.
 Responda SOMENTE com JSON válido, sem markdown:
 {
   "nome": "nome do produto se visível, ou null",
-  "categoria": "categoria inferida pelo visual, ou null",
+  "categoria": "categoria inferida pelo visual (ex: Sofá, Poltrona, Pufe, Mesa de Centro...), ou null",
   "descricao": "descrição breve do que aparece na foto, ou null"
 }"""
 
@@ -35,9 +35,9 @@ Extraia todas as informações disponíveis.
 Responda SOMENTE com JSON válido, sem markdown:
 {
   "nome": "nome do produto em maiúsculas",
-  "categoria": "categoria (ex: Sofá, Mesa de Centro, Poltrona...)",
-  "descricao": "descrição resumida em 1-2 frases valorizando o design",
-  "dimensoes": "todas as dimensões/variações separadas por |",
+  "categoria": "categoria exata (ex: Sofá, Poltrona, Pufe, Mesa de Centro, Mesa Lateral, Mesa de Jantar, Cadeira, Aparador, Rack, Estante, Cama, Criado-mudo, Cômoda, Espelho, Luminária, Tapete, Outros)",
+  "descricao": "descrição resumida em 1-2 frases valorizando o design. String vazia se não houver texto descritivo.",
+  "dimensoes": "copie EXATAMENTE as dimensões como aparecem na imagem, separadas por ' | '. Ex retangular: 'P - 115cm x 45cm x h.70cm | G - 155cm x 45cm x h.70cm'. Ex circular: 'P - Ø40cm x h.45cm | M - Ø50cm x h.45cm'. Preserve o símbolo Ø.",
   "materiais": ["material1", "material2"],
   "cores_disponiveis": ["cor1", "cor2"],
   "num_fotos_na_pagina": 2

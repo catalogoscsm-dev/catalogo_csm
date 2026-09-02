@@ -9,7 +9,7 @@ import anthropic
 from .models import Produto, BoundingBox, ParteMulticolor
 
 
-PROMPT_EXTRACAO = """Você é um especialista em catálogos de móveis planejados de alto padrão.
+PROMPT_EXTRACAO = """Você é um especialista em catálogos de móveis de alto padrão.
 
 Analise esta imagem (recorte de um catálogo) e extraia TODOS os dados do(s) produto(s) visível(is).
 
@@ -19,9 +19,9 @@ Retorne APENAS um JSON com esta estrutura exata — sem texto adicional, sem mar
   "produtos": [
     {
       "nome": "nome completo do produto",
-      "categoria": "Sala de Jantar | Sala de Estar | Cozinha | Dormitório | Home Office | Área Gourmet | Outros",
-      "descricao": "descrição técnica e comercial completa do produto",
-      "dimensoes": "todas as dimensões disponíveis (largura, altura, profundidade, diâmetros, variações)",
+      "categoria": "categoria exata do produto (ex: Sofá, Poltrona, Pufe, Mesa de Centro, Mesa Lateral, Mesa de Jantar, Cadeira, Aparador, Rack, Estante, Cama, Criado-mudo, Cômoda, Espelho, Luminária, Tapete, Outros)",
+      "descricao": "descrição técnica e comercial completa do produto. Se não houver texto descritivo na imagem, use string vazia.",
+      "dimensoes": "copie EXATAMENTE as dimensões como aparecem na imagem, separadas por ' | '. Exemplos: 'P - 115cm x 45cm x h.70cm | G - 155cm x 45cm x h.70cm' ou 'P - Ø40cm x h.45cm | M - Ø50cm x h.45cm'. Preserve o símbolo Ø para produtos circulares.",
       "materiais": ["material 1", "material 2"],
       "cores_disponiveis": ["cor/acabamento 1", "cor 2"],
       "partes_multicolor": [
@@ -37,11 +37,12 @@ Retorne APENAS um JSON com esta estrutura exata — sem texto adicional, sem mar
 
 REGRAS:
 - Se a imagem tiver mais de um produto, liste cada um separadamente em "produtos"
-- partes_multicolor: preencha APENAS se as partes do móvel têm opções de cor/material INDEPENDENTES entre si
-- Se todas as cores se aplicam ao produto inteiro, coloque apenas em "cores_disponiveis" e deixe partes_multicolor como []
-- Capture TODAS as variações de tamanho, formato (redonda, quadrada, retangular) e opções de tampo
+- dimensoes: copie o texto exatamente como está na imagem — não reformate, não converta unidades
+- partes_multicolor: preencha APENAS se partes diferentes do móvel têm cores/materiais independentes
+- Se todas as cores se aplicam ao produto inteiro, use apenas "cores_disponiveis" e deixe partes_multicolor como []
+- Capture TODAS as variações de tamanho (P, M, G, GG, etc.)
 - materiais: separe cada material individual como item da lista
-- Se não encontrar alguma informação, use string vazia ou lista vazia — não invente dados
+- Se não encontrar alguma informação, use string vazia "" ou lista vazia [] — não invente dados
 
 Retorne APENAS o JSON. Nenhum texto antes ou depois."""
 
